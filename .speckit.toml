@@ -118,3 +118,80 @@ enabled = false
 
 # Anonymous usage statistics
 anonymous = true
+
+[development]
+# Development workflow enforcement for AI agents and contributors
+# See DEVELOPMENT_WORKFLOW.md for complete rules
+
+# Enforce pre-push checklist
+enforce_pre_push_checklist = true
+
+# Require CHANGELOG.md updates on every PR
+require_changelog_updates = true
+
+# Require version bump when __init__.py changes
+require_version_bump_on_init = true
+
+# Approved root directory files (everything else should be in subdirectories)
+approved_root_files = [
+    # Essential documentation
+    "README.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "LICENSE",
+    "SECURITY.md",
+    "SUPPORT.md",
+    "DEVELOPMENT_WORKFLOW.md",
+    
+    # Configuration files
+    "pyproject.toml",
+    ".gitignore",
+    ".gitattributes",
+    ".speckit.toml",
+    
+    # Build/CI files
+    "cleanup-repository.sh",  # TODO: Should this move to scripts/?
+    
+    # Directories (always allowed)
+    "src/",
+    "tests/",
+    "docs/",
+    "scripts/",
+    "templates/",
+    "media/",
+    "memory/",
+    "htmlcov/",
+    ".github/",
+]
+
+# Files/patterns that should NEVER be in root
+forbidden_root_patterns = [
+    "PHASE_*.md",
+    "PR_*.md", 
+    "SESSION_*.md",
+    "TEST_TRACKING*.md",
+    "PROJECT_SPEC*.md",
+    "RELEASE_NOTES_*.md",
+    "AGENTS.md",
+    "spec-driven.md",
+    "*_COMPLETE.md",
+    "*_SUMMARY.md",
+]
+
+# Review/working docs folder (outside repo)
+review_docs_path = "../review-docs"
+
+# Testing requirements
+[development.testing]
+# Minimum overall coverage percentage
+min_coverage = 50
+
+# Minimum coverage for new code
+min_new_code_coverage = 80
+
+# Require tests for new features
+require_tests_for_features = true
+
+# Quality over quantity
+allow_superficial_tests = false

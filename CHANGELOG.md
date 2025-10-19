@@ -7,6 +7,37 @@ All notable changes to the Specify CLI and templates are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Development Workflow Constitution**: `DEVELOPMENT_WORKFLOW.md` with mandatory pre-push checklist
+  - Repository hygiene rules (clean root directory before push)
+  - Documentation update requirements (CHANGELOG.md, README.md, version bumps)
+  - Testing standards (50%+ coverage, quality over quantity)
+  - Version bump rules (especially for `__init__.py` changes)
+  - Approved root files list and Phase/PR workflow process
+
+- **AI Agent Instructions**: `.github/AI_AGENT_INSTRUCTIONS.md` for AI coding assistants
+  - Mandatory pre-push checklist with command sequences
+  - Self-check questions before pushing
+  - References to DEVELOPMENT_WORKFLOW.md for complete rules
+  - Common mistakes to avoid
+
+- **Development Configuration**: `[development]` section in `.speckit.toml`
+  - `enforce_pre_push_checklist = true` - Workflow enforcement
+  - `require_changelog_updates = true` - Mandatory CHANGELOG entries
+  - `require_version_bump_on_init = true` - Version consistency
+  - `approved_root_files` - List of allowed root directory files
+  - `forbidden_root_patterns` - Patterns that should never be in root
+  - Testing requirements: min_coverage, min_new_code_coverage
+
+### Changed
+
+- **Constitution Template**: `memory/constitution.md` now references DEVELOPMENT_WORKFLOW.md
+  - Clarifies that template is for projects using Spec-Kit
+  - Points to DEVELOPMENT_WORKFLOW.md for Spec-Kit's own rules
+
 ## [0.1.0a3] - 2025-10-18
 
 ### Added
