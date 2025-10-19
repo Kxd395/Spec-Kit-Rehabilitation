@@ -1,6 +1,6 @@
 [project]
 name = "specify-cli"
-version = "0.0.20"
+version = "0.1.0"
 description = "Specify CLI, part of GitHub Spec Kit. A tool to bootstrap your projects for Spec-Driven Development (SDD)."
 requires-python = ">=3.11"
 dependencies = [
@@ -10,6 +10,7 @@ dependencies = [
     "platformdirs",
     "readchar",
     "truststore>=0.10.4",
+    "tomli>=2.0.1; python_version < '3.11'",
 ]
 
 [project.optional-dependencies]
@@ -20,7 +21,14 @@ dev = [
     "black>=23.0.0",
     "ruff>=0.1.0",
 ]
-# Optional security analysis tools (not required for core functionality)
+# Security and quality analysis tools for real scanning
+analysis = [
+    "bandit[toml]>=1.7.5",
+    "safety>=2.3.5",
+    "radon>=6.0.1",
+    "detect-secrets>=1.4.0",
+]
+# Legacy optional-dependencies for backwards compatibility
 security = [
     "bandit[toml]>=1.7.5",
     "safety>=2.3.5",

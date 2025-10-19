@@ -1,0 +1,120 @@
+# Spec-Kit Configuration File
+# This file controls analysis behavior, thresholds, and policies
+
+[scan]
+# File patterns to include/exclude
+includes = ["src/**/*.py", "tests/**/*.py"]
+excludes = [
+    "**/migrations/**",
+    "**/__pycache__/**",
+    "**/.venv/**",
+    "**/venv/**",
+    "**/.git/**",
+    "**/node_modules/**",
+]
+
+# Only scan files changed in git (faster for PR checks)
+changed_only = false
+
+[security]
+# Minimum severity to report: LOW, MEDIUM, HIGH, CRITICAL
+severity_threshold = "MEDIUM"
+
+# Specific rules to allow (won't be reported)
+allow = []
+
+# Specific rules to deny (always report even if below threshold)
+deny = ["B602", "B603"]  # Example: subprocess with shell=True
+
+# Enable/disable security scanners
+bandit_enabled = true
+safety_enabled = true
+secrets_enabled = true
+
+[dependencies]
+# Package manager: pip, poetry, pipenv
+manager = "pip"
+
+# Fail on severity level for dependencies
+fail_on = "HIGH"
+
+# Check for outdated packages
+check_outdated = true
+
+[quality]
+# Cyclomatic complexity threshold
+complexity_threshold = 10
+
+# Maintainability index threshold (0-100, higher is better)
+maintainability_threshold = 20
+
+# Maximum function length in lines
+max_function_lines = 50
+
+# Maximum nesting depth
+max_nesting_depth = 4
+
+# Enable quality analyzers
+radon_enabled = true
+duplication_enabled = false
+
+[secrets]
+# Entropy threshold for high entropy strings (0.0 - 8.0)
+entropy_threshold = 4.5
+
+# Patterns to ignore
+allowlist_patterns = [
+    "EXAMPLE_.*",
+    "FAKE_.*",
+    "TEST_.*",
+]
+
+[report]
+# Output formats: markdown, json, sarif, html
+formats = ["markdown", "json"]
+
+# Output directory for reports
+out_dir = ".speckit/analysis"
+
+# Include code snippets in reports
+include_snippets = true
+
+# Group findings by severity
+group_by_severity = true
+
+[baseline]
+# Path to baseline file
+file = ".speckit/baseline.json"
+
+# Respect baseline (don't fail on baselined issues)
+respect_baseline = true
+
+# Respect inline suppressions
+respect_inline_suppressions = true
+
+[performance]
+# Maximum worker processes for parallel scanning
+max_workers = 4
+
+# Enable file hash caching for incremental scans
+warm_cache = true
+
+# Cache directory
+cache_dir = ".speckit/cache"
+
+[ci]
+# Fail build on severity threshold
+fail_on_severity = "HIGH"
+
+# Maximum allowed findings (0 = fail on any)
+max_findings = -1  # -1 means unlimited
+
+# Only scan changed files in PR
+pr_mode = false
+
+[telemetry]
+# Telemetry disabled by default
+enabled = false
+
+# Anonymous usage statistics
+anonymous = true
