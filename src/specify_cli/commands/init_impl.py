@@ -43,7 +43,8 @@ def ensure_executable_scripts(project_path: Path, tracker: StepTracker | None = 
                 with script.open("rb") as f:
                     if f.read(2) != b"#!":
                         continue
-            except Exception:
+            except (OSError, IOError, PermissionError):
+                # Cannot read file - skip it
                 continue
             st = script.stat()
             mode = st.st_mode
@@ -60,7 +61,8 @@ def ensure_executable_scripts(project_path: Path, tracker: StepTracker | None = 
                 new_mode |= 0o100
             os.chmod(script, new_mode)
             updated += 1
-        except Exception as e:
+        except (OSError, PermissionError) as e:
+            # chmod failed - permission denied or file system error
             failures.append(f"{script.relative_to(scripts_root)}: {e}")
     if tracker:
         detail = f"{updated} updated" + (f", {len(failures)} failed" if failures else "")

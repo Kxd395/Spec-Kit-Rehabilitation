@@ -31,7 +31,8 @@ def is_git_repo(path: Path | str | None = None) -> bool:
             check=False,
         )
         return result.returncode == 0
-    except Exception:
+    except (OSError, subprocess.SubprocessError, FileNotFoundError):
+        # Git command not found, directory doesn't exist, or subprocess failed
         return False
 
 
@@ -62,7 +63,8 @@ def get_changed_files(repo_root: Path | str | None = None) -> List[Path]:
         )
         if result.returncode == 0 and result.stdout.strip():
             return [root / p for p in result.stdout.splitlines() if p.strip()]
-    except Exception:
+    except (OSError, subprocess.SubprocessError):
+        # Git command failed or directory issues
         pass
 
     return []
@@ -88,7 +90,8 @@ def changed_python_files(repo_root: Path) -> List[Path]:
         )
         if res.returncode == 0 and res.stdout.strip():
             return [Path(repo_root, p) for p in res.stdout.splitlines() if p.endswith(".py")]
-    except Exception:
+    except (OSError, subprocess.SubprocessError):
+        # Git command failed
         pass
 
     # Fallback: list all tracked Python files
@@ -102,7 +105,8 @@ def changed_python_files(repo_root: Path) -> List[Path]:
         )
         if res.returncode == 0:
             return [Path(repo_root, p) for p in res.stdout.splitlines() if p]
-    except Exception:
+    except (OSError, subprocess.SubprocessError):
+        # Git command failed
         pass
 
     return []
