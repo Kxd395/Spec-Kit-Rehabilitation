@@ -44,6 +44,9 @@ env/
 *.zip
 sdd-*/
 
+# Internal progress tracking (keep locally, don't push)
+Review/
+
 # Testing artifacts
 .pytest_cache/
 .coverage
