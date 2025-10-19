@@ -35,6 +35,7 @@ from typer.core import TyperGroup
 from .agent_config import AGENT_CONFIG
 from .commands import check_tool
 from .commands import init as init_command
+from .commands import audit, doctor  # Import command modules
 from .console import console
 from .gitutils import is_git_repo
 from .ui import StepTracker, show_banner
@@ -44,6 +45,8 @@ __all__ = [
     "AGENT_CONFIG",
     "check_tool",
     "init_command",
+    "audit",
+    "doctor",
     "console",
     "is_git_repo",
     "StepTracker",
@@ -145,6 +148,10 @@ def run_command(
 
 # Register init command from commands.init_impl
 app.command()(init_command)
+
+# Register audit and doctor command apps
+app.add_typer(audit.app, name="audit")
+app.add_typer(doctor.app, name="doctor")
 
 
 @app.command()

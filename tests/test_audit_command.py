@@ -2,7 +2,8 @@
 
 import json
 from typer.testing import CliRunner
-from specify_cli.commands.audit import _gate_code, app
+from specify_cli import app  # Use main app instead of command-specific app
+from specify_cli.commands.audit import _gate_code
 
 
 runner = CliRunner()
@@ -82,7 +83,7 @@ class TestAuditCommand:
 
     def test_audit_help(self):
         """Test audit command help output."""
-        result = runner.invoke(app, ["run", "--help"])
+        result = runner.invoke(app, ["audit", "run", "--help"])
         assert result.exit_code == 0
         assert "security analysis" in result.stdout.lower()
         assert "--path" in result.stdout
@@ -96,7 +97,7 @@ class TestAuditCommand:
         test_file.write_text("print('hello')\n")
 
         # Run audit on tmp_path
-        result = runner.invoke(app, ["run", "--path", str(tmp_path)])
+        result = runner.invoke(app, ["audit", "run", "--path", str(tmp_path)])
 
         # Should complete without error (may have findings or not)
         # We're testing the command runs, not the analysis results
@@ -107,7 +108,7 @@ class TestAuditCommand:
         test_file = tmp_path / "test.py"
         test_file.write_text("print('hello')\n")
 
-        result = runner.invoke(app, ["run", "--path", str(tmp_path), "--output", "json"])
+        result = runner.invoke(app, ["audit", "run", "--path", str(tmp_path), "--output", "json"])
 
         # Command should accept the flag
         assert result.exit_code in [0, 1]
@@ -124,7 +125,7 @@ class TestAuditCommand:
         test_file = tmp_path / "test.py"
         test_file.write_text("print('hello')\n")
 
-        result = runner.invoke(app, ["run", "--path", str(tmp_path), "--fail-on", "HIGH"])
+        result = runner.invoke(app, ["audit", "run", "--path", str(tmp_path), "--fail-on", "HIGH"])
 
         # Command should accept the flag and complete
         assert result.exit_code in [0, 1]
@@ -135,7 +136,7 @@ class TestAuditCommand:
         test_file.write_text("print('hello')\n")
 
         # Test --no-bandit
-        result = runner.invoke(app, ["run", "--path", str(tmp_path), "--no-bandit"])
+        result = runner.invoke(app, ["audit", "run", "--path", str(tmp_path), "--no-bandit"])
 
         # Should complete successfully (no analyzers to run)
         assert result.exit_code in [0, 1]
@@ -145,7 +146,7 @@ class TestAuditCommand:
         test_file = tmp_path / "test.py"
         test_file.write_text("print('hello')\n")
 
-        runner.invoke(app, ["run", "--path", str(tmp_path), "--output", "json"])
+        runner.invoke(app, ["audit", "run", "--path", str(tmp_path), "--output", "json"])
 
         # Output directory should be created
         output_dir = tmp_path / ".speckit" / "analysis"
@@ -203,7 +204,7 @@ class TestAuditIntegration:
 
         # Run audit
         result = runner.invoke(
-            app, ["run", "--path", str(tmp_path), "--output", "json", "--no-safety"]
+            app, ["audit", "run", "--path", str(tmp_path), "--output", "json", "--no-safety"]
         )
 
         # Verify completion
@@ -242,7 +243,7 @@ safety = false
         test_file.write_text("print('hello')\n")
 
         # Run audit without flags (should use config)
-        result = runner.invoke(app, ["run", "--path", str(tmp_path)])
+        result = runner.invoke(app, ["audit", "run", "--path", str(tmp_path)])
 
         # Should use config settings
         assert result.exit_code in [0, 1]

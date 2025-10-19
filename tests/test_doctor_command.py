@@ -1,7 +1,8 @@
 """Test doctor command functionality."""
 
 from typer.testing import CliRunner
-from specify_cli.commands.doctor import _version, app
+from specify_cli import app  # Use main app instead of command-specific app
+from specify_cli.commands.doctor import _version
 
 
 runner = CliRunner()
@@ -36,38 +37,38 @@ class TestDoctorCommand:
 
     def test_doctor_help(self):
         """Test doctor command help output."""
-        result = runner.invoke(app, ["run", "--help"])
+        result = runner.invoke(app, ["doctor", "run", "--help"])
         assert result.exit_code == 0
         assert "environment" in result.stdout.lower()
 
     def test_doctor_runs_without_error(self):
         """Test doctor command executes successfully."""
-        result = runner.invoke(app, ["run"])
+        result = runner.invoke(app, ["doctor", "run"])
         assert result.exit_code == 0
 
     def test_doctor_shows_tools_table(self):
         """Test doctor displays tool status table."""
-        result = runner.invoke(app, ["run"])
+        result = runner.invoke(app, ["doctor", "run"])
         assert result.exit_code == 0
         assert "bandit" in result.stdout.lower()
         assert "safety" in result.stdout.lower()
 
     def test_doctor_shows_installation_hint(self):
         """Test doctor shows installation instructions."""
-        result = runner.invoke(app, ["run"])
+        result = runner.invoke(app, ["doctor", "run"])
         assert result.exit_code == 0
         assert "pip install" in result.stdout.lower()
 
     def test_doctor_checks_bandit(self):
         """Test doctor checks for bandit package."""
-        result = runner.invoke(app, ["run"])
+        result = runner.invoke(app, ["doctor", "run"])
         assert result.exit_code == 0
         # Should mention bandit in output
         assert "bandit" in result.stdout.lower()
 
     def test_doctor_checks_safety_cli(self):
         """Test doctor checks for safety CLI tool."""
-        result = runner.invoke(app, ["run"])
+        result = runner.invoke(app, ["doctor", "run"])
         assert result.exit_code == 0
         # Should check for safety CLI (not just Python package)
         output_lower = result.stdout.lower()
@@ -81,7 +82,7 @@ class TestDoctorIntegration:
 
     def test_doctor_provides_actionable_output(self):
         """Test doctor output is actionable for users."""
-        result = runner.invoke(app, ["run"])
+        result = runner.invoke(app, ["doctor", "run"])
         assert result.exit_code == 0
 
         # Should provide clear status information
@@ -96,5 +97,5 @@ class TestDoctorIntegration:
     def test_doctor_exits_successfully_always(self):
         """Test doctor always exits with code 0 (informational only)."""
         # Doctor is informational, shouldn't fail even if tools missing
-        result = runner.invoke(app, ["run"])
+        result = runner.invoke(app, ["doctor", "run"])
         assert result.exit_code == 0
