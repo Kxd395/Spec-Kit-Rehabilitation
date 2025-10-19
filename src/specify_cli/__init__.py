@@ -24,41 +24,19 @@ Or install globally:
     specify init --here
 """
 
-import os
 import subprocess
 import sys
-import zipfile
-import tempfile
-import shutil
-import shlex
-import json
-from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional
 
 import typer
-import httpx
-from rich.console import Console
-from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn
-from rich.text import Text
-from rich.live import Live
 from rich.align import Align
-from rich.table import Table
-from rich.tree import Tree
 from typer.core import TyperGroup
-from .ui import show_banner, StepTracker, select_with_arrows, get_key
-from .github import github_token as _github_token, github_auth_headers as _github_auth_headers
-from .github import download_template_from_github, download_and_extract_template
-from .vscode import handle_vscode_settings, merge_json_files
-from .commands import check_tool, is_git_repo, init_git_repo, CLAUDE_LOCAL_PATH
-from .commands import init as init_command, ensure_executable_scripts
-from .agent_config import AGENT_CONFIG
-from .config import SCRIPT_TYPE_CHOICES
-from .console import console
-from .http import ssl_context, client
 
-# For cross-platform keyboard input
-import readchar
+from .agent_config import AGENT_CONFIG
+from .commands import check_tool
+from .commands import init as init_command
+from .console import console
+from .ui import StepTracker, show_banner
 # Agent configuration moved to src/specify_cli/agent_config.py
 # Script type choices moved to src/specify_cli/config.py
 # CLAUDE_LOCAL_PATH moved to src/specify_cli/commands/init.py
@@ -67,16 +45,17 @@ import readchar
 BANNER = """
 ███████╗██████╗ ███████╗ ██████╗██╗███████╗██╗   ██╗
 ██╔════╝██╔══██╗██╔════╝██╔════╝██║██╔════╝╚██╗ ██╔╝
-███████╗██████╔╝█████╗  ██║     ██║█████╗   ╚████╔╝ 
-╚════██║██╔═══╝ ██╔══╝  ██║     ██║██╔══╝    ╚██╔╝  
-███████║██║     ███████╗╚██████╗██║██║        ██║   
-╚══════╝╚═╝     ╚══════╝ ╚═════╝╚═╝╚═╝        ╚═╝   
+███████╗██████╔╝█████╗  ██║     ██║█████╗   ╚████╔╝
+╚════██║██╔═══╝ ██╔══╝  ██║     ██║██╔══╝    ╚██╔╝
+███████║██║     ███████╗╚██████╗██║██║        ██║
+╚══════╝╚═╝     ╚══════╝ ╚═════╝╚═╝╚═╝        ╚═╝
 """
 
 TAGLINE = "GitHub Spec Kit - Spec-Driven Development Toolkit"
 # StepTracker moved to src/specify_cli/ui/tracker.py
 # get_key() and select_with_arrows() moved to src/specify_cli/ui/selector.py
 # console moved to src/specify_cli/console.py
+
 
 class BannerGroup(TyperGroup):
     """Custom group that shows banner before help."""
@@ -97,6 +76,7 @@ app = typer.Typer(
 
 # show_banner() function moved to src/specify_cli/ui/banner.py
 
+
 @app.callback()
 def callback(ctx: typer.Context):
     """Show banner when no subcommand is provided."""
@@ -105,11 +85,16 @@ def callback(ctx: typer.Context):
         console.print(Align.center("[dim]Run 'specify --help' for usage information[/dim]"))
         console.print()
 
-def run_command(cmd: list[str], check_return: bool = True, capture: bool = False, shell: bool = False) -> Optional[str]:
+
+def run_command(
+    cmd: list[str], check_return: bool = True, capture: bool = False, shell: bool = False
+) -> Optional[str]:
     """Run a shell command and optionally capture output."""
     try:
         if capture:
-            result = subprocess.run(cmd, check=check_return, capture_output=True, text=True, shell=shell)
+            result = subprocess.run(
+                cmd, check=check_return, capture_output=True, text=True, shell=shell
+            )
             return result.stdout.strip()
         else:
             subprocess.run(cmd, check=check_return, shell=shell)
@@ -118,10 +103,11 @@ def run_command(cmd: list[str], check_return: bool = True, capture: bool = False
         if check_return:
             console.print(f"[red]Error running command:[/red] {' '.join(cmd)}")
             console.print(f"[red]Exit code:[/red] {e.returncode}")
-            if hasattr(e, 'stderr') and e.stderr:
+            if hasattr(e, "stderr") and e.stderr:
                 console.print(f"[red]Error output:[/red] {e.stderr}")
             raise
         return None
+
 
 # check_tool(), is_git_repo(), and init_git_repo() functions moved to src/specify_cli/commands/init.py
 
@@ -143,20 +129,20 @@ def check():
 
     tracker.add("git", "Git version control")
     git_ok = check_tool("git", tracker=tracker)
-    
+
     agent_results = {}
     for agent_key, agent_config in AGENT_CONFIG.items():
         agent_name = agent_config["name"]
-        
+
         tracker.add(agent_key, agent_name)
         agent_results[agent_key] = check_tool(agent_key, tracker=tracker)
-    
+
     # Check VS Code variants (not in agent config)
     tracker.add("code", "Visual Studio Code")
-    code_ok = check_tool("code", tracker=tracker)
-    
+    check_tool("code", tracker=tracker)
+
     tracker.add("code-insiders", "Visual Studio Code Insiders")
-    code_insiders_ok = check_tool("code-insiders", tracker=tracker)
+    check_tool("code-insiders", tracker=tracker)
 
     console.print(tracker.render())
 
@@ -168,9 +154,10 @@ def check():
     if not any(agent_results.values()):
         console.print("[dim]Tip: Install an AI assistant for the best experience[/dim]")
 
+
 def main():
     app()
 
+
 if __name__ == "__main__":
     main()
-
