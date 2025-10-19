@@ -1,4 +1,5 @@
 """Step tracking UI component for Spec-Kit CLI."""
+
 from rich.tree import Tree
 
 
@@ -6,9 +7,10 @@ class StepTracker:
     """Track and render hierarchical steps without emojis, similar to Claude Code tree output.
     Supports live auto-refresh via an attached refresh callback.
     """
+
     def __init__(self, title: str):
         self.title = title
-        self.steps = []  # list of dicts: {key, label, status, detail}
+        self.steps: list[dict[str, str]] = []  # list of dicts: {key, label, status, detail}
         self.status_order = {"pending": 0, "running": 1, "done": 2, "error": 3, "skipped": 4}
         self._refresh_cb = None  # callable to trigger UI refresh
 

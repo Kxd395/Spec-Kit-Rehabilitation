@@ -1,4 +1,5 @@
 """Interactive selector UI component for Spec-Kit CLI."""
+
 import readchar
 import typer
 from rich.console import Console
@@ -12,15 +13,15 @@ def get_key():
     key = readchar.readkey()
 
     if key == readchar.key.UP or key == readchar.key.CTRL_P:
-        return 'up'
+        return "up"
     if key == readchar.key.DOWN or key == readchar.key.CTRL_N:
-        return 'down'
+        return "down"
 
     if key == readchar.key.ENTER:
-        return 'enter'
+        return "enter"
 
     if key == readchar.key.ESC:
-        return 'escape'
+        return "escape"
 
     if key == readchar.key.CTRL_C:
         raise KeyboardInterrupt
@@ -28,22 +29,27 @@ def get_key():
     return key
 
 
-def select_with_arrows(options: dict, prompt_text: str = "Select an option", default_key: str = None, console: Console = None) -> str:
+def select_with_arrows(
+    options: dict,
+    prompt_text: str = "Select an option",
+    default_key: str | None = None,
+    console: Console | None = None,
+) -> str:
     """
     Interactive selection using arrow keys with Rich Live display.
-    
+
     Args:
         options: Dict with keys as option keys and values as descriptions
         prompt_text: Text to show above the options
         default_key: Default option key to start with
         console: Rich Console instance to use
-        
+
     Returns:
         Selected option key
     """
     if console is None:
         console = Console()
-    
+
     option_keys = list(options.keys())
     if default_key and default_key in option_keys:
         selected_index = option_keys.index(default_key)
@@ -68,28 +74,27 @@ def select_with_arrows(options: dict, prompt_text: str = "Select an option", def
         table.add_row("", "[dim]Use ↑/↓ to navigate, Enter to select, Esc to cancel[/dim]")
 
         return Panel(
-            table,
-            title=f"[bold]{prompt_text}[/bold]",
-            border_style="cyan",
-            padding=(1, 2)
+            table, title=f"[bold]{prompt_text}[/bold]", border_style="cyan", padding=(1, 2)
         )
 
     console.print()
 
     def run_selection_loop():
         nonlocal selected_key, selected_index
-        with Live(create_selection_panel(), console=console, transient=True, auto_refresh=False) as live:
+        with Live(
+            create_selection_panel(), console=console, transient=True, auto_refresh=False
+        ) as live:
             while True:
                 try:
                     key = get_key()
-                    if key == 'up':
+                    if key == "up":
                         selected_index = (selected_index - 1) % len(option_keys)
-                    elif key == 'down':
+                    elif key == "down":
                         selected_index = (selected_index + 1) % len(option_keys)
-                    elif key == 'enter':
+                    elif key == "enter":
                         selected_key = option_keys[selected_index]
                         break
-                    elif key == 'escape':
+                    elif key == "escape":
                         console.print("\n[yellow]Selection cancelled[/yellow]")
                         raise typer.Exit(1)
 

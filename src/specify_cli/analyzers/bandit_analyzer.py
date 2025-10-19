@@ -1,4 +1,5 @@
 """Bandit security analyzer for Python code."""
+
 from __future__ import annotations
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -8,6 +9,7 @@ import fnmatch
 try:
     from bandit.core import manager as bandit_manager
     from bandit.core import config as bandit_config
+
     BANDIT = True
 except Exception:
     BANDIT = False
@@ -18,6 +20,7 @@ SEVERITY_MAP = {"LOW": "note", "MEDIUM": "warning", "HIGH": "error"}
 @dataclass
 class BanditFinding:
     """Represents a single Bandit security finding."""
+
     file_path: str
     line: int
     rule_id: str
@@ -29,10 +32,10 @@ class BanditFinding:
 
 class BanditAnalyzer:
     """Wrapper for Bandit security scanner."""
-    
+
     def __init__(self, target: Path, exclude_globs: List[str] | None = None):
         """Initialize analyzer with target path.
-        
+
         Args:
             target: Directory or file to analyze
             exclude_globs: List of glob patterns to exclude
@@ -42,56 +45,61 @@ class BanditAnalyzer:
 
     def _is_excluded(self, p: Path) -> bool:
         """Check if path matches any exclude pattern.
-        
+
         Args:
             p: Path to check
-            
+
         Returns:
             True if path should be excluded
         """
         rel = str(p.relative_to(self.target)) if p.is_absolute() else str(p)
-        return any(fnmatch.fnmatch(rel, pat) or rel.startswith(pat.rstrip("/"))
-                   for pat in self.exclude_globs)
+        return any(
+            fnmatch.fnmatch(rel, pat) or rel.startswith(pat.rstrip("/"))
+            for pat in self.exclude_globs
+        )
 
     def run(self) -> List[BanditFinding]:
         """Run Bandit analysis on target.
-        
+
         Returns:
             List of BanditFinding objects
         """
         if not BANDIT:
             return []
-        
+
         cfg = bandit_config.BanditConfig()
         mgr = bandit_manager.BanditManager(cfg, "file")
-        
+
         # Find Python files, excluding common patterns and user-defined globs
         py_files = []
         for p in self.target.rglob("*.py"):
             # Skip virtual environments and build artifacts
-            if any(part in p.parts for part in ['.venv', 'venv', '.tox', 'build', 'dist', '__pycache__']):
+            if any(
+                part in p.parts
+                for part in [".venv", "venv", ".tox", "build", "dist", "__pycache__"]
+            ):
                 continue
             # Skip user-defined excludes
             if self._is_excluded(p):
                 continue
             py_files.append(str(p))
-        
+
         if not py_files:
             return []
-        
+
         mgr.discover_files(py_files)
         mgr.run_tests()
-        
+
         out: List[BanditFinding] = []
         for i in mgr.get_issue_list():
             cwe = None
             if hasattr(i, "cwe") and isinstance(i.cwe, dict):
                 cwe = i.cwe.get("id")
-            
+
             # Handle both old and new attribute names
-            severity = getattr(i, 'issue_severity', getattr(i, 'severity', 'MEDIUM'))
-            confidence = getattr(i, 'issue_confidence', getattr(i, 'confidence', 'MEDIUM'))
-            
+            severity = getattr(i, "issue_severity", getattr(i, "severity", "MEDIUM"))
+            confidence = getattr(i, "issue_confidence", getattr(i, "confidence", "MEDIUM"))
+
             out.append(
                 BanditFinding(
                     file_path=i.fname,
@@ -108,10 +116,10 @@ class BanditAnalyzer:
     @staticmethod
     def to_dicts(findings: List[BanditFinding]) -> List[Dict[str, Any]]:
         """Convert findings to dictionaries.
-        
+
         Args:
             findings: List of BanditFinding objects
-            
+
         Returns:
             List of dictionaries
         """

@@ -1,4 +1,5 @@
 """Specify CLI - Spec-first analysis tool."""
+
 from __future__ import annotations
 import typer
 

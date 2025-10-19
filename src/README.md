@@ -61,7 +61,7 @@ class NewFinding:
 class NewAnalyzer:
     def __init__(self, project_root: Path):
         self.root = project_root
-    
+
     def run(self) -> List[NewFinding]:
         # Implementation
         pass

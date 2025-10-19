@@ -284,11 +284,11 @@ alerts:
   - name: High Error Rate
     condition: error_rate > 1%
     action: Notify team, consider rollback
-    
+
   - name: Slow Response
     condition: p95_latency > 500ms
     action: Investigate, optimize
-    
+
   - name: Database Overload
     condition: connection_pool > 80%
     action: Scale up database

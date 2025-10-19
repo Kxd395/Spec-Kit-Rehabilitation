@@ -186,18 +186,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      
+
       - name: Install specify-cli
         run: |
           pip install uv
           uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
-      
+
       - name: Install analyzers
         run: pip install bandit safety
-      
+
       - name: Run security analysis
         run: specify audit run --output sarif --fail-on HIGH
-      
+
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v3
         with:

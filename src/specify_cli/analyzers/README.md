@@ -118,7 +118,7 @@ class Analyzer:
     def __init__(self, project_root: Path, **options):
         """Initialize analyzer with project root and options"""
         pass
-    
+
     def run(self) -> List[Finding]:
         """Execute analysis and return findings"""
         pass
@@ -180,11 +180,11 @@ class NewFinding:
 
 class NewAnalyzer:
     """New analyzer implementation"""
-    
+
     def __init__(self, project_root: Path, **options):
         self.root = Path(project_root)
         # Store options
-    
+
     def run(self) -> List[NewFinding]:
         """Run analysis"""
         findings = []
@@ -313,7 +313,7 @@ open htmlcov/index.html
 2. **Parallel Execution** (future):
    ```python
    import concurrent.futures
-   
+
    with concurrent.futures.ThreadPoolExecutor() as executor:
        bandit_future = executor.submit(bandit.run)
        safety_future = executor.submit(safety.run)

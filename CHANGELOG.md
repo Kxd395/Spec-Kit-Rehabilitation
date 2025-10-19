@@ -59,7 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Configuration system with TOML + ENV + CLI precedence
   - SHA256 fingerprints for finding deduplication
   - CWE mapping in SARIF rules
-  
+
 - **Documentation**: Comprehensive documentation for Phase 3 features
   - `docs/security-scanning.md` - Security scanning guide
   - `docs/architecture.md` - System architecture overview
@@ -250,4 +250,3 @@ N/A
 ### Changed
 
 N/A
-

@@ -1,4 +1,5 @@
 """Template extraction and installation."""
+
 from __future__ import annotations
 import zipfile
 import tempfile
@@ -13,11 +14,12 @@ from .download import download_template_from_github
 from ..vscode.settings import handle_vscode_settings
 
 if TYPE_CHECKING:
-    import httpx
+    pass
 
 console = Console()
 
 # handle_vscode_settings() and merge_json_files() moved to src/specify_cli/vscode/settings.py
+
 
 def download_and_extract_template(
     project_path: Path,
@@ -26,15 +28,15 @@ def download_and_extract_template(
     is_current_dir: bool = False,
     *,
     verbose: bool = True,
-    tracker = None,
-    client = None,
+    tracker=None,
+    client=None,
     debug: bool = False,
-    github_token: str = None
+    github_token: str | None = None,
 ) -> Path:
     """Download the latest release and extract it to create a new project.
-    
+
     Returns project_path. Uses tracker if provided (with keys: fetch, download, extract, cleanup)
-    
+
     Args:
         project_path: Target directory for project
         ai_assistant: Name of AI assistant
@@ -45,10 +47,10 @@ def download_and_extract_template(
         client: Optional httpx.Client instance
         debug: Enable debug output
         github_token: Optional GitHub token
-        
+
     Returns:
         Path to the project directory
-        
+
     Raises:
         typer.Exit: If extraction fails
     """
@@ -65,12 +67,12 @@ def download_and_extract_template(
             show_progress=(tracker is None),
             client=client,
             debug=debug,
-            github_token=github_token
+            github_token=github_token,
         )
         if tracker:
             tracker.complete("fetch", f"release {meta['release']} ({meta['size']:,} bytes)")
             tracker.add("download", "Download template")
-            tracker.complete("download", meta['filename'])
+            tracker.complete("download", meta["filename"])
     except Exception as e:
         if tracker:
             tracker.error("fetch", str(e))
@@ -89,7 +91,7 @@ def download_and_extract_template(
         if not is_current_dir:
             project_path.mkdir(parents=True)
 
-        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        with zipfile.ZipFile(zip_path, "r") as zip_ref:
             zip_contents = zip_ref.namelist()
             if tracker:
                 tracker.start("zip-list")
@@ -107,7 +109,9 @@ def download_and_extract_template(
                         tracker.start("extracted-summary")
                         tracker.complete("extracted-summary", f"temp {len(extracted_items)} items")
                     elif verbose:
-                        console.print(f"[cyan]Extracted {len(extracted_items)} items to temp location[/cyan]")
+                        console.print(
+                            f"[cyan]Extracted {len(extracted_items)} items to temp location[/cyan]"
+                        )
 
                     source_dir = temp_path
                     if len(extracted_items) == 1 and extracted_items[0].is_dir():
@@ -116,22 +120,29 @@ def download_and_extract_template(
                             tracker.add("flatten", "Flatten nested directory")
                             tracker.complete("flatten")
                         elif verbose:
-                            console.print(f"[cyan]Found nested directory structure[/cyan]")
+                            console.print("[cyan]Found nested directory structure[/cyan]")
 
                     for item in source_dir.iterdir():
                         dest_path = project_path / item.name
                         if item.is_dir():
                             if dest_path.exists():
                                 if verbose and not tracker:
-                                    console.print(f"[yellow]Merging directory:[/yellow] {item.name}")
-                                for sub_item in item.rglob('*'):
+                                    console.print(
+                                        f"[yellow]Merging directory:[/yellow] {item.name}"
+                                    )
+                                for sub_item in item.rglob("*"):
                                     if sub_item.is_file():
                                         rel_path = sub_item.relative_to(item)
                                         dest_file = dest_path / rel_path
                                         dest_file.parent.mkdir(parents=True, exist_ok=True)
                                         # Special handling for .vscode/settings.json - merge instead of overwrite
-                                        if dest_file.name == "settings.json" and dest_file.parent.name == ".vscode":
-                                            handle_vscode_settings(sub_item, dest_file, rel_path, verbose, tracker)
+                                        if (
+                                            dest_file.name == "settings.json"
+                                            and dest_file.parent.name == ".vscode"
+                                        ):
+                                            handle_vscode_settings(
+                                                sub_item, dest_file, rel_path, verbose, tracker
+                                            )
                                         else:
                                             shutil.copy2(sub_item, dest_file)
                             else:
@@ -141,7 +152,7 @@ def download_and_extract_template(
                                 console.print(f"[yellow]Overwriting file:[/yellow] {item.name}")
                             shutil.copy2(item, dest_path)
                     if verbose and not tracker:
-                        console.print(f"[cyan]Template files merged into current directory[/cyan]")
+                        console.print("[cyan]Template files merged into current directory[/cyan]")
             else:
                 zip_ref.extractall(project_path)
 
@@ -150,7 +161,9 @@ def download_and_extract_template(
                     tracker.start("extracted-summary")
                     tracker.complete("extracted-summary", f"{len(extracted_items)} top-level items")
                 elif verbose:
-                    console.print(f"[cyan]Extracted {len(extracted_items)} items to {project_path}:[/cyan]")
+                    console.print(
+                        f"[cyan]Extracted {len(extracted_items)} items to {project_path}:[/cyan]"
+                    )
                     for item in extracted_items:
                         console.print(f"  - {item.name} ({'dir' if item.is_dir() else 'file'})")
 
@@ -167,7 +180,7 @@ def download_and_extract_template(
                         tracker.add("flatten", "Flatten nested directory")
                         tracker.complete("flatten")
                     elif verbose:
-                        console.print(f"[cyan]Flattened nested directory structure[/cyan]")
+                        console.print("[cyan]Flattened nested directory structure[/cyan]")
 
     except Exception as e:
         if tracker:
@@ -177,6 +190,7 @@ def download_and_extract_template(
                 console.print(f"[red]Error extracting template:[/red] {e}")
                 if debug:
                     from rich.panel import Panel
+
                     console.print(Panel(str(e), title="Extraction Error", border_style="red"))
 
         if not is_current_dir and project_path.exists():

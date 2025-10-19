@@ -1,4 +1,5 @@
 """Git utilities for changed file detection."""
+
 from __future__ import annotations
 import subprocess
 from pathlib import Path
@@ -7,10 +8,10 @@ from typing import List
 
 def changed_python_files(repo_root: Path) -> List[Path]:
     """Get list of changed Python files in git repo.
-    
+
     Args:
         repo_root: Root of the git repository
-        
+
     Returns:
         List of paths to changed .py files
     """
@@ -27,7 +28,7 @@ def changed_python_files(repo_root: Path) -> List[Path]:
             return [Path(repo_root, p) for p in res.stdout.splitlines() if p.endswith(".py")]
     except Exception:
         pass
-    
+
     # Fallback: list all tracked Python files
     try:
         res = subprocess.run(
@@ -41,5 +42,5 @@ def changed_python_files(repo_root: Path) -> List[Path]:
             return [Path(repo_root, p) for p in res.stdout.splitlines() if p]
     except Exception:
         pass
-    
+
     return []

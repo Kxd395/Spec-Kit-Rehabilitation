@@ -28,9 +28,9 @@ def download_template_from_github(
     script_type: str = "sh",
     verbose: bool = True,
     show_progress: bool = True,
-    client: httpx.Client = None,
+    client: httpx.Client | None = None,
     debug: bool = False,
-    github_token: str = None,
+    github_token: str | None = None,
 ) -> Tuple[Path, dict]:
     """Download template ZIP from GitHub releases.
 

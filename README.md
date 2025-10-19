@@ -163,7 +163,7 @@ specify init . --here --ai copilot
 # 3. Use AI-assisted prompts to generate specs from existing code
 /speckit.reverse-engineer
 
-# 4. Get AI guidance on security and quality issues  
+# 4. Get AI guidance on security and quality issues
 /speckit.audit
 
 # 5. Ask AI to generate improved specifications
@@ -203,7 +203,7 @@ specify doctor run
 ### Outputs
 
 - **SARIF**: `.speckit/analysis/report.sarif` - GitHub Code Scanning compatible
-- **HTML**: `.speckit/analysis/report.html` - Human-readable report  
+- **HTML**: `.speckit/analysis/report.html` - Human-readable report
 - **JSON**: `.speckit/analysis/analysis.json` - Raw JSON output
 
 ### Configuration
@@ -236,7 +236,7 @@ paths = [
 ### Exit Codes
 
 - `0` - No gated findings
-- `1` - Findings at or above `--fail-on` threshold  
+- `1` - Findings at or above `--fail-on` threshold
 - `2` - Missing analyzers when `--strict` is used
 
 ### CI Integration
@@ -293,7 +293,7 @@ Upload SARIF to GitHub Code Scanning automatically with the provided workflow:
 ### Use Cases
 
 - ✅ **Legacy Modernization** - Upgrade old applications to modern frameworks
-- ✅ **Security Hardening** - Fix vulnerabilities systematically  
+- ✅ **Security Hardening** - Fix vulnerabilities systematically
 - ✅ **Documentation Recovery** - Generate specs for undocumented projects
 - ✅ **Architecture Refactoring** - Improve design with minimal risk
 - ✅ **Team Onboarding** - Help new developers understand existing projects
@@ -385,7 +385,7 @@ specify init --here --ai copilot
 
 # Force merge into current (non-empty) directory without confirmation
 specify init . --force --ai copilot
-# or 
+# or
 specify init --here --force --ai copilot
 
 # Skip git initialization
@@ -835,4 +835,3 @@ This project is heavily influenced by and based on the work and research of [Joh
 ## 📄 License
 
 This project is licensed under the terms of the MIT open source license. Please refer to the [LICENSE](./LICENSE) file for the full terms.
-

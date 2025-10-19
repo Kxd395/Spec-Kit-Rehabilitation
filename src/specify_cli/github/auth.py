@@ -1,4 +1,5 @@
 """GitHub authentication helpers."""
+
 import os
 
 

@@ -578,6 +578,6 @@ Warning: Baseline file '.speckit/baseline.json' not found. Creating new baseline
 
 ---
 
-**Generated from:** Spec-Kit v0.1.0  
-**Schema version:** 1.0  
+**Generated from:** Spec-Kit v0.1.0
+**Schema version:** 1.0
 **Last updated:** October 18, 2025

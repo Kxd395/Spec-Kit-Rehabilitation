@@ -1,4 +1,5 @@
 """HTML reporter for security findings."""
+
 from __future__ import annotations
 from pathlib import Path
 from typing import List, Dict

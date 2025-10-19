@@ -19,31 +19,31 @@ jobs:
   security-scan:
     name: Security & Quality Analysis
     runs-on: ubuntu-latest
-    
+
     permissions:
       # Required for uploading SARIF results
       security-events: write
       # Required for PR comments
       pull-requests: write
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           # Fetch full history for changed file detection
           fetch-depth: 0
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
-      
+
       - name: Install Spec-Kit
         run: |
           pip install --upgrade pip
           pip install specify-cli bandit safety radon
-      
+
       - name: Run Spec-Kit audit
         run: |
           specify audit . \
@@ -52,19 +52,19 @@ jobs:
             --fail-on-severity HIGH \
             --changed-only
         continue-on-error: true
-      
+
       - name: Upload SARIF results
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: .speckit/analysis/report.sarif
           category: spec-kit
-      
+
       - name: Upload analysis artifacts
         uses: actions/upload-artifact@v4
         with:
           name: spec-kit-reports
           path: .speckit/analysis/
-      
+
       - name: Comment PR with results
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
@@ -72,7 +72,7 @@ jobs:
           script: |
             const fs = require('fs');
             const report = fs.readFileSync('.speckit/analysis/report.md', 'utf8');
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -138,7 +138,7 @@ env:
   if: github.ref == 'refs/heads/main'
   run: |
     specify baseline create --output .speckit/baseline.json
-    
+
 - name: Commit baseline
   uses: stefanzweifel/git-auto-commit-action@v5
   with:
@@ -177,17 +177,17 @@ jobs:
       matrix:
         python-version: ['3.11', '3.12']
         os: [ubuntu-latest, macos-latest, windows-latest]
-    
+
     runs-on: ${{ matrix.os }}
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      
+
       - name: Run Spec-Kit
         run: specify audit .
 ```
@@ -196,11 +196,11 @@ jobs:
 
 When you upload SARIF to GitHub:
 
-✅ **PR Annotations**: Findings appear as inline comments  
-✅ **Security Dashboard**: Centralized view of all issues  
-✅ **Trend Analysis**: Track findings over time  
-✅ **Filtering**: Filter by severity, rule, file  
-✅ **Dismissal**: Mark false positives  
+✅ **PR Annotations**: Findings appear as inline comments
+✅ **Security Dashboard**: Centralized view of all issues
+✅ **Trend Analysis**: Track findings over time
+✅ **Filtering**: Filter by severity, rule, file
+✅ **Dismissal**: Mark false positives
 
 ## Viewing Results
 

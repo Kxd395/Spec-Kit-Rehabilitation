@@ -36,11 +36,11 @@ class TestCheckTool:
         """Test check_tool updates tracker correctly."""
         tracker = StepTracker("Test")
         tracker.add("test-tool", "Test Tool")
-        
+
         # Test with found tool
         result = check_tool("python", tracker)
         assert result is True
-        
+
         # Check tracker was updated
         step = next((s for s in tracker.steps if s["key"] == "test-tool"), None)
         assert step is not None
@@ -84,7 +84,7 @@ class TestStepTracker:
         """Test adding steps to tracker."""
         tracker = StepTracker("Test")
         tracker.add("step1", "First Step")
-        
+
         assert len(tracker.steps) == 1
         assert tracker.steps[0]["key"] == "step1"
         assert tracker.steps[0]["label"] == "First Step"
@@ -94,11 +94,11 @@ class TestStepTracker:
         """Test step status transitions."""
         tracker = StepTracker("Test")
         tracker.add("step1", "Test Step")
-        
+
         # Start step
         tracker.start("step1", "Starting...")
         assert tracker.steps[0]["status"] == "running"
-        
+
         # Complete step
         tracker.complete("step1", "Done")
         assert tracker.steps[0]["status"] == "done"
@@ -108,7 +108,7 @@ class TestStepTracker:
         tracker = StepTracker("Test")
         tracker.add("step1", "Test Step")
         tracker.error("step1", "Failed")
-        
+
         assert tracker.steps[0]["status"] == "error"
 
 
@@ -124,9 +124,9 @@ class TestIsGitRepo:
     def test_is_git_repo_with_git(self, mock_run, tmp_path):
         """Test positive case when git repo exists."""
         mock_run.return_value = MagicMock(returncode=0)
-        
+
         is_git_repo(tmp_path)
-        
+
         # Should call git rev-parse
         mock_run.assert_called_once()
         assert "git" in mock_run.call_args[0][0]
@@ -163,7 +163,7 @@ class TestHelpers:
             # IDE-based agents don't need CLI matching
             if not config["requires_cli"]:
                 continue
-            
+
             # CLI-based agents should have keys matching their tool names
             # This is important for consistency
             assert isinstance(key, str)

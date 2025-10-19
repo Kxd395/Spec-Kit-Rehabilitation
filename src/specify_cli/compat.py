@@ -20,4 +20,3 @@ __all__ = [
     "init_git_repo",
     "CLAUDE_LOCAL_PATH",
 ]
-

@@ -10,6 +10,7 @@ from specify_cli.logging import get_logger
 
 log = get_logger(__name__)
 
+
 @dataclass
 class SafetyFinding:
     package: str
@@ -19,6 +20,7 @@ class SafetyFinding:
     severity: str
     vulnerable_spec: str
     fix_version: Optional[str]
+
 
 class SafetyAnalyzer:
     """

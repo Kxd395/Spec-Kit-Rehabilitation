@@ -95,7 +95,7 @@ class YourFinding:
     file_path: str
     line: int
     message: str
-    
+
     def to_dict(self):
         return asdict(self)
 ```
@@ -106,7 +106,7 @@ class YourFinding:
 class YourAnalyzer:
     def __init__(self, repo_root: Path):
         self.repo_root = repo_root
-    
+
     def run(self) -> list[YourFinding]:
         # Implement tool execution and parsing
         return findings

@@ -58,10 +58,10 @@ def test_example(tmp_path: Path):
     # Arrange
     test_file = tmp_path / "test.py"
     test_file.write_text("x = 1")
-    
+
     # Act
     result = your_function(test_file)
-    
+
     # Assert
     assert result == expected_value
 ```

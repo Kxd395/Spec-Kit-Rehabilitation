@@ -143,16 +143,16 @@ approved_root_files = [
     "SECURITY.md",
     "SUPPORT.md",
     "DEVELOPMENT_WORKFLOW.md",
-    
+
     # Configuration files
     "pyproject.toml",
     ".gitignore",
     ".gitattributes",
     ".speckit.toml",
-    
+
     # Build/CI files
     "cleanup-repository.sh",  # TODO: Should this move to scripts/?
-    
+
     # Directories (always allowed)
     "src/",
     "tests/",
@@ -168,7 +168,7 @@ approved_root_files = [
 # Files/patterns that should NEVER be in root
 forbidden_root_patterns = [
     "PHASE_*.md",
-    "PR_*.md", 
+    "PR_*.md",
     "SESSION_*.md",
     "TEST_TRACKING*.md",
     "PROJECT_SPEC*.md",

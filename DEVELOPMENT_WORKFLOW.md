@@ -1,7 +1,7 @@
 # Development Workflow & Rules
 
-> **Last Updated**: 2025-10-19  
-> **Status**: Active Constitution  
+> **Last Updated**: 2025-10-19
+> **Status**: Active Constitution
 > **Applies To**: All development work on Spec-Kit
 
 ---
@@ -245,6 +245,6 @@ git push origin main
 
 ---
 
-**Version**: 1.0.0  
-**Ratified**: 2025-10-19  
+**Version**: 1.0.0
+**Ratified**: 2025-10-19
 **Last Amended**: 2025-10-19

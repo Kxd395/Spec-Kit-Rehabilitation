@@ -1,14 +1,15 @@
 """Logging configuration for Spec-Kit."""
+
 import logging
 import os
 
 
 def get_logger(name: str) -> logging.Logger:
     """Get configured logger for Spec-Kit modules.
-    
+
     Args:
         name: Logger name (usually __name__)
-        
+
     Returns:
         Configured logger instance
     """

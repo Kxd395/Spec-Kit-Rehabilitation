@@ -1,7 +1,7 @@
 # AI Agent Instructions for Spec-Kit Development
 
-> **Purpose**: Instructions for AI coding assistants working on Spec-Kit  
-> **Last Updated**: 2025-10-19  
+> **Purpose**: Instructions for AI coding assistants working on Spec-Kit
+> **Last Updated**: 2025-10-19
 > **Authority**: These rules are MANDATORY and supersede ad-hoc decisions
 
 ---
@@ -211,6 +211,6 @@ For complete rules and rationale, see:
 
 ---
 
-**Version**: 1.0.0  
-**Created**: 2025-10-19  
+**Version**: 1.0.0
+**Created**: 2025-10-19
 **Last Updated**: 2025-10-19

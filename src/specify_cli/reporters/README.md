@@ -170,10 +170,10 @@ def write_new_format(
 ) -> Path:
     """Generate report in new format"""
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     # Generate content
     content = _generate_content(code_findings, dep_findings)
-    
+
     # Write to file
     out_path.write_text(content, encoding="utf-8")
     return out_path
@@ -332,10 +332,10 @@ Always validate output paths:
 def write_report(out_path: Path) -> Path:
     # Ensure parent directory exists
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     # Resolve to absolute path
     out_path = out_path.resolve()
-    
+
     # Write safely
     out_path.write_text(content, encoding="utf-8")
     return out_path
