@@ -10,6 +10,9 @@ try:
 except ModuleNotFoundError:
     import tomli as tomllib  # type: ignore
 
+# Script type choices for project initialization
+SCRIPT_TYPE_CHOICES = {"sh": "POSIX Shell (bash/zsh)", "ps": "PowerShell"}
+
 def _env_bool(name: str, default: bool) -> bool:
     v = os.getenv(name, None)
     if v is None:
