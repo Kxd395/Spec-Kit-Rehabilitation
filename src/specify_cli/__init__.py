@@ -46,12 +46,11 @@ from rich.align import Align
 from rich.table import Table
 from rich.tree import Tree
 from typer.core import TyperGroup
-from .ui.banner import show_banner
-from .github.auth import get_github_token as _github_token, get_auth_headers as _github_auth_headers
-from .github.download import download_template_from_github
-from .github.extraction import download_and_extract_template
-from .vscode.settings import handle_vscode_settings, merge_json_files
-from .commands.init import check_tool, is_git_repo, init_git_repo, CLAUDE_LOCAL_PATH
+from .ui import show_banner
+from .github import github_token as _github_token, github_auth_headers as _github_auth_headers
+from .github import download_template_from_github, download_and_extract_template
+from .vscode import handle_vscode_settings, merge_json_files
+from .commands import check_tool, is_git_repo, init_git_repo, CLAUDE_LOCAL_PATH
 
 # For cross-platform keyboard input
 import readchar
