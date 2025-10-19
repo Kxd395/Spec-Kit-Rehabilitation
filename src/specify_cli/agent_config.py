@@ -1,7 +1,9 @@
 """Agent configuration definitions for Specify CLI."""
 
+from typing import Any
+
 # Agent configuration with name, folder, install URL, and CLI tool requirement
-AGENT_CONFIG = {
+AGENT_CONFIG: dict[str, dict[str, Any]] = {
     "copilot": {
         "name": "GitHub Copilot",
         "folder": ".github/",

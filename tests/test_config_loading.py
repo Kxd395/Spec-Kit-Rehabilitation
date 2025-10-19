@@ -17,6 +17,7 @@ def test_config_env_overrides(tmp_path: Path, monkeypatch):
     cfg = load_config(tmp_path)
 
     # Verify ENV variable took precedence
+    assert cfg.analysis is not None
     assert cfg.analysis.fail_on == "MEDIUM", f"Expected MEDIUM from ENV, got {cfg.analysis.fail_on}"
 
 
@@ -26,6 +27,8 @@ def test_config_defaults_when_no_file(tmp_path: Path):
     cfg = load_config(tmp_path)
 
     # Verify defaults
+    assert cfg.analysis is not None
+    assert cfg.output is not None
     assert cfg.analysis.fail_on == "HIGH"  # Default severity
     assert cfg.output.format == "sarif"  # Default format
     assert cfg.output.directory == ".speckit/analysis"  # Default directory

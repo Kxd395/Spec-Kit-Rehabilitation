@@ -97,7 +97,7 @@ class BanditAnalyzer:
         """Supports exclude patterns - production-ready"""
         self.target = Path(target)
         self.exclude_globs = exclude_globs or []
-    
+
     def _is_excluded(self, p: Path) -> bool:
         """Smart pattern matching with fnmatch"""
         rel = str(p.relative_to(self.target)) if p.is_absolute() else str(p)
@@ -105,11 +105,11 @@ class BanditAnalyzer:
                    for pat in self.exclude_globs)
 ```
 
-✅ Uses dataclasses for type safety  
-✅ Proper type hints throughout  
-✅ Exclude pattern support with fnmatch  
-✅ Error handling for BANDIT_AVAILABLE  
-✅ Docstrings for all public methods  
+✅ Uses dataclasses for type safety
+✅ Proper type hints throughout
+✅ Exclude pattern support with fnmatch
+✅ Error handling for BANDIT_AVAILABLE
+✅ Docstrings for all public methods
 
 ```python
 # safety_analyzer.py - Manifest detection
@@ -130,11 +130,11 @@ def _choose_manifest(self) -> Tuple[str, Optional[Path]]:
     return ("env", None)
 ```
 
-✅ Smart manifest detection (6 formats)  
-✅ Explicit error handling (no silent failures)  
-✅ Raises FileNotFoundError if Safety CLI missing  
-✅ Supports both `safety scan` and legacy `safety check`  
-✅ Comprehensive logging with get_logger  
+✅ Smart manifest detection (6 formats)
+✅ Explicit error handling (no silent failures)
+✅ Raises FileNotFoundError if Safety CLI missing
+✅ Supports both `safety scan` and legacy `safety check`
+✅ Comprehensive logging with get_logger
 
 **Issues Found:** None critical
 
@@ -173,9 +173,9 @@ def write_html(code_findings: List[Dict], dep_findings: List[Dict], out_path: Pa
     )
 ```
 
-✅ All user-controlled fields escaped  
-✅ Prevents stored XSS attacks  
-✅ Uses `quote=True` for attribute context  
+✅ All user-controlled fields escaped
+✅ Prevents stored XSS attacks
+✅ Uses `quote=True` for attribute context
 
 **Strengths - SARIF Compliance:**
 ```python
@@ -189,11 +189,11 @@ def combine_to_sarif(
     """SARIF 2.1.0 with rules and fingerprints"""
     rules = {}  # Deduplicated rule definitions
     results = []
-    
+
     # SHA256 fingerprints for deduplication
     def _fp(s: str) -> str:
         return hashlib.sha256(s.encode("utf-8")).hexdigest()[:16]
-    
+
     # Smart manifest detection
     def _best_dep_artifact(repo_root: Path, hint: Optional[str]) -> Optional[str]:
         if hint:
@@ -206,11 +206,11 @@ def combine_to_sarif(
         return None
 ```
 
-✅ SARIF 2.1.0 compliant  
-✅ Proper rule definitions with CWE mapping  
-✅ Fingerprints for result deduplication  
-✅ Smart manifest detection (never defaults to ".")  
-✅ Separate Bandit/Safety result handling  
+✅ SARIF 2.1.0 compliant
+✅ Proper rule definitions with CWE mapping
+✅ Fingerprints for result deduplication
+✅ Smart manifest detection (never defaults to ".")
+✅ Separate Bandit/Safety result handling
 
 ---
 
@@ -247,9 +247,9 @@ class SpecKitConfig:
     exclude_paths: list[str]           # Glob patterns
 ```
 
-✅ Clean dataclass-based architecture  
-✅ Sensible defaults for all settings  
-✅ Extensible for future analyzers  
+✅ Clean dataclass-based architecture
+✅ Sensible defaults for all settings
+✅ Extensible for future analyzers
 
 **Environment Override System:**
 ```python
@@ -261,10 +261,10 @@ def load_config(repo_root: Path, file_path: Optional[Path] = None) -> SpecKitCon
     cfg.analyzers.bandit = _env_bool("SPECKIT_BANDIT", cfg.analyzers.bandit)
 ```
 
-✅ TOML configuration file support  
-✅ Environment variable overrides  
-✅ Priority: ENV > TOML > defaults  
-✅ Python 3.11+ tomllib, older versions tomli  
+✅ TOML configuration file support
+✅ Environment variable overrides
+✅ Priority: ENV > TOML > defaults
+✅ Python 3.11+ tomllib, older versions tomli
 
 **Issues Found:** None
 
@@ -297,17 +297,17 @@ def audit(
 ):
     """Run security analysis with Bandit and Safety"""
     cfg = load_config(path)
-    
+
     # CLI flags override config
     eff_fail = fail_on or cfg.analysis.fail_on
     eff_baseline = cfg.analysis.respect_baseline if respect_baseline is None else respect_baseline
 ```
 
-✅ Config integration with CLI override support  
-✅ Rich console output with Panel  
-✅ Multi-format output (SARIF/HTML/JSON)  
-✅ Baseline filtering support  
-✅ Exit code gating based on severity  
+✅ Config integration with CLI override support
+✅ Rich console output with Panel
+✅ Multi-format output (SARIF/HTML/JSON)
+✅ Baseline filtering support
+✅ Exit code gating based on severity
 
 **doctor.py - Environment Validation:**
 ```python
@@ -321,9 +321,9 @@ def doctor():
     t.add_row("radon", _version("radon"))
 ```
 
-✅ Checks all required tools  
-✅ Distinguishes between Python package and CLI  
-✅ Clear installation guidance  
+✅ Checks all required tools
+✅ Distinguishes between Python package and CLI
+✅ Clear installation guidance
 
 **Issues Found:**
 - ⚠️ `audit.py` references `cfg.output.directory` but doesn't create .speckit.toml.example
@@ -404,9 +404,9 @@ def run_all(cfg: RunConfig) -> Dict[str, List[dict]]:
     return out
 ```
 
-✅ Clean orchestration layer  
-✅ Consistent dataclass-to-dict conversion  
-✅ Easy to add new analyzers  
+✅ Clean orchestration layer
+✅ Consistent dataclass-to-dict conversion
+✅ Easy to add new analyzers
 
 **`baseline.py` - Smart Baseline Filtering:**
 ```python
@@ -418,10 +418,10 @@ class Baseline:
     - JSON-based fingerprint storage
 ```
 
-✅ Production-ready baseline system  
-✅ Regex support for dynamic issues  
-✅ Inline comment suppression  
-✅ Proper fingerprint generation  
+✅ Production-ready baseline system
+✅ Regex support for dynamic issues
+✅ Inline comment suppression
+✅ Proper fingerprint generation
 
 ---
 
@@ -459,21 +459,21 @@ class Baseline:
 ### Main README.md Review
 
 **Strengths:**
-✅ Clear value proposition  
-✅ Installation instructions (uv tool install)  
-✅ Step-by-step getting started guide  
-✅ Video overview section  
-✅ Supported AI agents list  
-✅ Limitations clearly stated  
-✅ Rehabilitation features documented  
+✅ Clear value proposition
+✅ Installation instructions (uv tool install)
+✅ Step-by-step getting started guide
+✅ Video overview section
+✅ Supported AI agents list
+✅ Limitations clearly stated
+✅ Rehabilitation features documented
 
 **Issues:**
-⚠️ **Phase 3 security features not documented** in main README  
-⚠️ No mention of `specify audit` command  
-⚠️ No mention of `specify doctor` command  
-⚠️ SARIF/HTML reporting not explained  
-⚠️ Baseline filtering not explained  
-⚠️ Config system (`.speckit.toml`) not documented  
+⚠️ **Phase 3 security features not documented** in main README
+⚠️ No mention of `specify audit` command
+⚠️ No mention of `specify doctor` command
+⚠️ SARIF/HTML reporting not explained
+⚠️ Baseline filtering not explained
+⚠️ Config system (`.speckit.toml`) not documented
 
 **Missing Sections:**
 1. Security Scanning (NEW - Phase 3)

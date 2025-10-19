@@ -45,10 +45,10 @@ This is what you should do if you want to:
 ```bash
 # Go to GitHub.com and create a NEW repository
 # Name it something meaningful:
-# - "spec-kit-enhanced" 
+# - "spec-kit-enhanced"
 # - "spec-kit-rehabilitation"
 # - "spec-analyzer" (if you build the real tools)
-# 
+#
 # Do NOT initialize with README (you already have files)
 ```
 
@@ -221,12 +221,12 @@ Choose this if you want your features in the **official spec-kit**.
 1. **Open a GitHub Discussion:**
    ```
    Title: "Proposal: Add Project Rehabilitation Features"
-   
+
    Hey team, I've built some enhancements to spec-kit that add:
    - Real security scanning (Bandit integration)
    - Code analysis tools
    - Project rehabilitation workflows
-   
+
    Would this be in scope for the official project?
    If so, I can clean it up and submit a PR.
    ```

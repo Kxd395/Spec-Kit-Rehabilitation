@@ -68,6 +68,9 @@ def audit(
     cfg = load_config(path)
 
     # Merge config with CLI overrides
+    assert cfg.output is not None
+    assert cfg.analysis is not None
+    assert cfg.analyzers is not None
     eff_output = output or cfg.output.format
     eff_fail = fail_on or cfg.analysis.fail_on
     eff_baseline = cfg.analysis.respect_baseline if respect_baseline is None else respect_baseline
@@ -126,7 +129,7 @@ def audit(
             changed_only=eff_changed,
             use_bandit=use_bandit,
             use_safety=use_safety,
-            exclude_globs=list(cfg.exclude_paths),
+            exclude_globs=list(cfg.exclude_paths or []),
         )
     )
     logger.success(f"Analysis complete in {logger.elapsed()}")
@@ -149,6 +152,7 @@ def audit(
 
     # Write output
     logger.section("Output Generation", "📝")
+    assert cfg.output is not None
     out_dir = path / cfg.output.directory
     out_dir.mkdir(parents=True, exist_ok=True)
     logger.info(f"Output directory: {out_dir}")

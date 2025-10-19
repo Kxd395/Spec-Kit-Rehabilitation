@@ -123,6 +123,7 @@ class SpecKitConfig:
         # Security section
         if "security" in data:
             s = data["security"]
+            assert cfg.security is not None  # Initialized in __post_init__
             cfg.security = SecurityCfg(
                 severity_threshold=s.get("severity_threshold", cfg.security.severity_threshold),
                 allow_list=s.get("allow_list", cfg.security.allow_list),
@@ -132,6 +133,7 @@ class SpecKitConfig:
         # CI section
         if "ci" in data:
             c = data["ci"]
+            assert cfg.ci is not None  # Initialized in __post_init__
             cfg.ci = CICfg(
                 fail_on_severity=c.get("fail_on_severity", cfg.ci.fail_on_severity),
                 max_findings=c.get("max_findings", cfg.ci.max_findings),
@@ -140,6 +142,7 @@ class SpecKitConfig:
         # Performance section
         if "performance" in data:
             p = data["performance"]
+            assert cfg.performance is not None  # Initialized in __post_init__
             cfg.performance = PerformanceCfg(
                 max_workers=p.get("max_workers", cfg.performance.max_workers),
             )
@@ -147,6 +150,7 @@ class SpecKitConfig:
         # Telemetry section
         if "telemetry" in data:
             t = data["telemetry"]
+            assert cfg.telemetry is not None  # Initialized in __post_init__
             cfg.telemetry = TelemetryCfg(
                 enabled=t.get("enabled", cfg.telemetry.enabled),
             )
@@ -154,6 +158,7 @@ class SpecKitConfig:
         # Analysis section
         if "analysis" in data:
             a = data["analysis"]
+            assert cfg.analysis is not None  # Initialized in __post_init__
             cfg.analysis = AnalysisCfg(
                 fail_on=a.get("fail_on", cfg.analysis.fail_on),
                 respect_baseline=a.get("respect_baseline", cfg.analysis.respect_baseline),
@@ -163,6 +168,7 @@ class SpecKitConfig:
         # Output section
         if "output" in data:
             o = data["output"]
+            assert cfg.output is not None  # Initialized in __post_init__
             cfg.output = OutputCfg(
                 format=o.get("format", cfg.output.format),
                 directory=o.get("directory", cfg.output.directory),
@@ -171,6 +177,7 @@ class SpecKitConfig:
         # Analyzers section
         if "analyzers" in data:
             z = data["analyzers"]
+            assert cfg.analyzers is not None  # Initialized in __post_init__
             cfg.analyzers = AnalyzersCfg(
                 bandit=z.get("bandit", cfg.analyzers.bandit),
                 safety=z.get("safety", cfg.analyzers.safety),
@@ -202,6 +209,9 @@ def load_config(repo_root: Path, file_path: Optional[Path] = None) -> SpecKitCon
         o = data.get("output", {})
         z = data.get("analyzers", {})
         ex = data.get("exclude", {}).get("paths", [])
+        assert cfg.analysis is not None  # Initialized in __post_init__
+        assert cfg.output is not None  # Initialized in __post_init__
+        assert cfg.analyzers is not None  # Initialized in __post_init__
         cfg.analysis = AnalysisCfg(
             fail_on=a.get("fail_on", cfg.analysis.fail_on),
             respect_baseline=a.get("respect_baseline", cfg.analysis.respect_baseline),
@@ -219,6 +229,8 @@ def load_config(repo_root: Path, file_path: Optional[Path] = None) -> SpecKitCon
         cfg.exclude_paths = list(ex or [])
 
     # ENV overrides
+    assert cfg.analysis is not None  # Initialized in __post_init__
+    assert cfg.output is not None  # Initialized in __post_init__
     cfg.analysis.fail_on = os.getenv("SPECKIT_FAIL_ON", cfg.analysis.fail_on)
     cfg.analysis.respect_baseline = _env_bool(
         "SPECKIT_RESPECT_BASELINE", cfg.analysis.respect_baseline
@@ -226,6 +238,7 @@ def load_config(repo_root: Path, file_path: Optional[Path] = None) -> SpecKitCon
     cfg.analysis.changed_only = _env_bool("SPECKIT_CHANGED_ONLY", cfg.analysis.changed_only)
     cfg.output.format = os.getenv("SPECKIT_OUTPUT", cfg.output.format)
     cfg.output.directory = os.getenv("SPECKIT_OUT_DIR", cfg.output.directory)
+    assert cfg.analyzers is not None  # Initialized in __post_init__
     cfg.analyzers.bandit = _env_bool("SPECKIT_BANDIT", cfg.analyzers.bandit)
     cfg.analyzers.safety = _env_bool("SPECKIT_SAFETY", cfg.analyzers.safety)
     cfg.analyzers.secrets = _env_bool("SPECKIT_SECRETS", cfg.analyzers.secrets)

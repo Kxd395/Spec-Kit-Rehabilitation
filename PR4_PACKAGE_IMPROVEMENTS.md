@@ -1,7 +1,7 @@
 # PR-4: Package Structure Improvements
 
-**Branch**: `feature/a4-refactor-commands`  
-**Date**: October 18, 2025  
+**Branch**: `feature/a4-refactor-commands`
+**Date**: October 18, 2025
 **Commits**: 2 (698de21, caf6784)
 
 ## Summary
@@ -14,7 +14,7 @@ Enhanced package structure by extracting commands module AND fixing all package 
 
 **Created**: `src/specify_cli/commands/init.py` (114 lines)
 - Extracted `check_tool()` - Tool availability checker with Claude CLI special handling
-- Extracted `is_git_repo()` - Git repository detection  
+- Extracted `is_git_repo()` - Git repository detection
 - Extracted `init_git_repo()` - Repository initialization with error handling
 - Moved `CLAUDE_LOCAL_PATH` constant
 
@@ -125,7 +125,7 @@ from .commands import check_tool, is_git_repo, init_git_repo, CLAUDE_LOCAL_PATH
 
 ## Testing
 
-**Test Results**: ✅ **24 tests passed** (no regressions)  
+**Test Results**: ✅ **24 tests passed** (no regressions)
 **Pre-existing Failures**: ❌ 2 tests (test_html_escapes, test_sarif_fingerprints) - unchanged from PR-2/PR-3
 
 ```bash
@@ -145,7 +145,7 @@ collected 34 items / 8 deselected / 26 selected
 grep -r "def show_banner" src/specify_cli/ --include="*.py"
 # Result: Only in ui/banner.py ✅
 
-grep -r "def check_tool" src/specify_cli/ --include="*.py"  
+grep -r "def check_tool" src/specify_cli/ --include="*.py"
 # Result: Only in commands/init.py ✅
 
 grep -r "CLAUDE_LOCAL_PATH" src/specify_cli/

@@ -1,7 +1,7 @@
 # PR-8: Fix Acceptance Tests - COMPLETE
 
-**Branch**: `feature/phase-5-pr-8-fix-acceptance-tests`  
-**Target**: Phase 5 - v0.1.0a5  
+**Branch**: `feature/phase-5-pr-8-fix-acceptance-tests`
+**Target**: Phase 5 - v0.1.0a5
 **Status**: ✅ COMPLETE
 
 ---
@@ -121,7 +121,7 @@ Coverage: 41% ✅ +2%
 
 ### PR-8 Objectives
 - [x] Add `get_severity_level()` function
-- [x] Add `should_report_finding()` function  
+- [x] Add `should_report_finding()` function
 - [x] Add `SecurityCfg` dataclass
 - [x] Add `CICfg` dataclass
 - [x] Add `PerformanceCfg` dataclass
@@ -220,6 +220,6 @@ All new functions and classes have:
 
 ---
 
-**Ready for Merge**: ✅ Yes  
-**Reviewed By**: Automated tests  
+**Ready for Merge**: ✅ Yes
+**Reviewed By**: Automated tests
 **Approved By**: All tests passing

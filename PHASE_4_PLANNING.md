@@ -1,9 +1,9 @@
 # 🚀 Phase 4 Planning: Post-Release Enhancements
 ## Spec-Kit v0.1.0a4 Development Roadmap
 
-**Previous Release**: v0.1.0a3 (Phase 3 Complete - Security Scanning)  
-**Current Planning Date**: October 18, 2025  
-**Target Release**: v0.1.0a4 or v0.2.0  
+**Previous Release**: v0.1.0a3 (Phase 3 Complete - Security Scanning)
+**Current Planning Date**: October 18, 2025
+**Target Release**: v0.1.0a4 or v0.2.0
 **Planning Status**: DRAFT
 
 ---
@@ -51,7 +51,7 @@
 ### 🔴 HIGH PRIORITY (v0.1.0a4)
 
 #### 1. Refactor __init__.py (1,197 lines)
-**Effort**: 8-12 hours  
+**Effort**: 8-12 hours
 **Impact**: Code maintainability, testing, architecture grade
 
 **Current State**:
@@ -116,7 +116,7 @@ src/specify_cli/
 ---
 
 #### 2. Increase Test Coverage to 80%
-**Effort**: 6-8 hours  
+**Effort**: 6-8 hours
 **Impact**: Code quality, reliability, confidence
 
 **Current Coverage**: ~70% (estimated)
@@ -171,7 +171,7 @@ tests/integration/              # Full flow tests
 ---
 
 #### 3. Performance Benchmarking & Optimization
-**Effort**: 4-6 hours  
+**Effort**: 4-6 hours
 **Impact**: User experience, scalability
 
 **Benchmarks to Establish**:
@@ -214,10 +214,10 @@ def run_all_parallel(config: RunConfig) -> dict:
             futures['bandit'] = executor.submit(run_bandit, config)
         if config.use_safety:
             futures['safety'] = executor.submit(run_safety, config)
-        
+
         for name, future in futures.items():
             results[name] = future.result()
-    
+
     return results
 ```
 
@@ -226,7 +226,7 @@ def run_all_parallel(config: RunConfig) -> dict:
 ### 🟡 MEDIUM PRIORITY (v0.2.0)
 
 #### 4. Enhanced CLI Output & User Experience
-**Effort**: 4-6 hours  
+**Effort**: 4-6 hours
 **Impact**: User satisfaction, usability
 
 **Improvements**:
@@ -271,7 +271,7 @@ def run_all_parallel(config: RunConfig) -> dict:
 ---
 
 #### 5. Secrets Detection (Phase 3.5)
-**Effort**: 8-10 hours  
+**Effort**: 8-10 hours
 **Impact**: Security completeness
 
 **Current State**: Placeholder in config (`secrets = false`)
@@ -325,7 +325,7 @@ def run_all_parallel(config: RunConfig) -> dict:
 ---
 
 #### 6. Configuration Validation & Helpers
-**Effort**: 3-4 hours  
+**Effort**: 3-4 hours
 **Impact**: User experience, error prevention
 
 **Add to config.py**:
@@ -336,17 +336,17 @@ def run_all_parallel(config: RunConfig) -> dict:
        def validate(self) -> list[str]:
            """Return list of validation errors."""
            errors = []
-           
+
            if self.analysis.fail_on not in ['HIGH', 'MEDIUM', 'LOW']:
                errors.append("fail_on must be HIGH, MEDIUM, or LOW")
-           
+
            if self.output.format not in ['sarif', 'html', 'json']:
                errors.append("format must be sarif, html, or json")
-           
+
            for path in self.exclude_paths:
                if '..' in path:
                    errors.append(f"Unsafe path: {path}")
-           
+
            return errors
    ```
 
@@ -355,10 +355,10 @@ def run_all_parallel(config: RunConfig) -> dict:
    specify config init
    # Interactive prompt to create .speckit.toml
    # Asks questions and generates config
-   
+
    specify config validate
    # Checks current config for errors
-   
+
    specify config show
    # Shows effective configuration (merged TOML + ENV + CLI)
    ```
@@ -373,7 +373,7 @@ def run_all_parallel(config: RunConfig) -> dict:
 ### 🟢 LOW PRIORITY (Future Releases)
 
 #### 7. Plugin System for Custom Analyzers
-**Effort**: 12-16 hours  
+**Effort**: 12-16 hours
 **Impact**: Extensibility, community
 
 **Design**:
@@ -382,11 +382,11 @@ def run_all_parallel(config: RunConfig) -> dict:
 class AnalyzerPlugin:
     name: str
     version: str
-    
+
     def run(self, path: Path) -> list[dict]:
         """Run analyzer and return findings."""
         pass
-    
+
     def supports_format(self, format: str) -> bool:
         """Check if plugin supports output format."""
         pass
@@ -395,7 +395,7 @@ class AnalyzerPlugin:
 # ~/.speckit/plugins/my_analyzer.py
 class MyAnalyzer(AnalyzerPlugin):
     name = "my-analyzer"
-    
+
     def run(self, path: Path):
         # Custom analysis logic
         return findings
@@ -418,7 +418,7 @@ args = ["--strict"]
 ---
 
 #### 8. Web Dashboard
-**Effort**: 20-30 hours  
+**Effort**: 20-30 hours
 **Impact**: Enterprise use cases
 
 **Features**:
@@ -437,7 +437,7 @@ args = ["--strict"]
 ---
 
 #### 9. IDE Integrations
-**Effort**: 15-20 hours per IDE  
+**Effort**: 15-20 hours per IDE
 **Impact**: Developer workflow
 
 **VS Code Extension**:
@@ -584,11 +584,11 @@ args = ["--strict"]
 
 ---
 
-**Status**: ✅ Ready to Begin Phase 4  
-**Next Action**: Create feature/phase-4-refactoring branch  
-**Owner**: Development Team  
+**Status**: ✅ Ready to Begin Phase 4
+**Next Action**: Create feature/phase-4-refactoring branch
+**Owner**: Development Team
 **Estimated Completion**: 4-6 weeks from start
 
-**Generated**: October 18, 2025  
-**Version**: Phase 4 Planning v1.0  
+**Generated**: October 18, 2025
+**Version**: Phase 4 Planning v1.0
 **Document**: PHASE_4_PLANNING.md

@@ -1,8 +1,8 @@
 # Phase 4 Revised Plan - Production Grade
 
-**Based on**: review41.md hyper-critical analysis  
-**Date**: October 18, 2025  
-**Current Version**: v0.1.0a3 (Grade A - 94/100)  
+**Based on**: review41.md hyper-critical analysis
+**Date**: October 18, 2025
+**Current Version**: v0.1.0a3 (Grade A - 94/100)
 **Target**: v0.1.0a4 → v0.2.0 (Grade A+ - 97+/100)
 
 ---
@@ -35,7 +35,7 @@ v0.2.0   (2-4 weeks) → Secrets + Config + UX enhancements
 
 ### Work Item A: Refactor __init__.py Safely
 
-**Impact**: Maintainability, Testability  
+**Impact**: Maintainability, Testability
 **Time**: 8-12 hours
 
 #### Extracted Modules
@@ -84,10 +84,10 @@ __all__ = ["show_banner", "download_repo"]
 
 #### Acceptance Criteria
 
-✅ Lines remaining in `__init__.py` < 200  
-✅ All imports resolve with cold install  
-✅ `specify init` and `specify check` work with new modules  
-✅ No change in CLI help output (except module paths in stack traces)  
+✅ Lines remaining in `__init__.py` < 200
+✅ All imports resolve with cold install
+✅ `specify init` and `specify check` work with new modules
+✅ No change in CLI help output (except module paths in stack traces)
 
 #### Required Tests
 
@@ -106,15 +106,15 @@ __all__ = ["show_banner", "download_repo"]
 
 #### Risk Hotspots to Test
 
-⚠️ **Windows path separators and UTF-8 filenames** in extraction  
-⚠️ **Archives with top-level folder vs flat files**  
-⚠️ **VS Code settings JSON merge** when key exists with different types  
+⚠️ **Windows path separators and UTF-8 filenames** in extraction
+⚠️ **Archives with top-level folder vs flat files**
+⚠️ **VS Code settings JSON merge** when key exists with different types
 
 ---
 
 ### Work Item B: Risk-Weighted Tests to 80% Coverage
 
-**Impact**: Reliability  
+**Impact**: Reliability
 **Time**: 6-8 hours
 
 **Do NOT chase raw percentage.** Target modules that can break users:
@@ -181,7 +181,7 @@ REQUIRED = [
 
 ### Work Item C: Performance Harness + Baseline Numbers
 
-**Impact**: Predictability, Scalability  
+**Impact**: Predictability, Scalability
 **Time**: 4-6 hours
 
 #### Benchmark Harness
@@ -243,15 +243,15 @@ pytest tests/perf --benchmark-only --benchmark-autosave
 
 #### Acceptance Criteria
 
-✅ CI job named "Performance smoke" prints three timing lines  
-✅ Exits green under targets  
-✅ Failing a target fails job and blocks merge  
+✅ CI job named "Performance smoke" prints three timing lines
+✅ Exits green under targets
+✅ Failing a target fails job and blocks merge
 
 ---
 
 ### Work Item D: Minimal UX Polish (No Contract Changes)
 
-**Impact**: Developer Experience  
+**Impact**: Developer Experience
 **Time**: 2-3 hours
 
 **Keep it safe and measurable. No interactive prompts in a4.**
@@ -260,7 +260,7 @@ pytest tests/perf --benchmark-only --benchmark-autosave
 
 1. **`--verbose` flag** to `specify audit`:
    - Show analyzer start/finish lines + elapsed time
-   
+
 2. **Summary table at end**:
    - Counts per severity
    - Dependency vulns scanned/vulnerable
@@ -268,9 +268,9 @@ pytest tests/perf --benchmark-only --benchmark-autosave
 
 #### Acceptance Criteria
 
-✅ `specify audit run --verbose` prints 3-step progress with timing  
-✅ Summary shows counts per severity  
-✅ Summary shows dependency vulns scanned and vulnerable  
+✅ `specify audit run --verbose` prints 3-step progress with timing
+✅ Summary shows counts per severity
+✅ Summary shows dependency vulns scanned and vulnerable
 
 #### Implementation Stub
 
@@ -283,7 +283,7 @@ def make_summary(code_findings, dep_findings, duration_s: float, out_dir: str) -
     hi = sev.count("HIGH") + sev.count("CRITICAL")
     md = sev.count("MEDIUM")
     lo = sev.count("LOW")
-    
+
     t = Table(title="Audit Summary")
     t.add_column("Metric")
     t.add_column("Value")
@@ -364,9 +364,9 @@ allow_list = [
 
 #### Security Review Checklist
 
-✅ No subprocess invocation accepts user input without `shlex`  
-✅ No secret values logged  
-✅ Fail closed: If CLI missing in `--strict`, exit code 2  
+✅ No subprocess invocation accepts user input without `shlex`
+✅ No secret values logged
+✅ Fail closed: If CLI missing in `--strict`, exit code 2
 
 ---
 
@@ -406,7 +406,7 @@ def validate(cfg) -> List[str]:
         if not (0 <= cfg.secrets.min_entropy <= 8):
             errs.append("secrets.min_entropy must be 0-8")
     # Analyzer validation
-    if not any([cfg.analyzers.bandit, cfg.analyzers.safety, 
+    if not any([cfg.analyzers.bandit, cfg.analyzers.safety,
                 getattr(cfg.analyzers, 'secrets', False)]):
         errs.append("At least one analyzer must be enabled")
     return errs
@@ -426,8 +426,8 @@ def validate(cfg) -> List[str]:
 
 #### Acceptance Criteria
 
-✅ Non-interactive behavior remains default  
-✅ All interactive prompts skippable in CI (by absence of flag)  
+✅ Non-interactive behavior remains default
+✅ All interactive prompts skippable in CI (by absence of flag)
 
 ---
 
@@ -458,9 +458,9 @@ def validate(cfg) -> List[str]:
 
 ### PR Requirements (All)
 
-✅ Docs update for user-visible changes  
-✅ At least one new focused test  
-✅ Pass coverage gate and perf smoke job  
+✅ Docs update for user-visible changes
+✅ At least one new focused test
+✅ Pass coverage gate and perf smoke job
 
 ---
 
@@ -481,30 +481,30 @@ def validate(cfg) -> List[str]:
 
 ### v0.1.0a4 Must Meet ALL:
 
-✅ `__init__.py` under 200 lines  
-✅ Coverage ≥ 80% on `src/`  
-✅ Performance smoke shows times under targets on CI  
-✅ No CLI contract changes, existing SARIF tests pass  
-✅ New verbose summary appears and is stable in tests  
-✅ Docs updated: src, architecture, commands READMEs revised  
+✅ `__init__.py` under 200 lines
+✅ Coverage ≥ 80% on `src/`
+✅ Performance smoke shows times under targets on CI
+✅ No CLI contract changes, existing SARIF tests pass
+✅ New verbose summary appears and is stable in tests
+✅ Docs updated: src, architecture, commands READMEs revised
 
 ### v0.2.0 Must Meet ALL:
 
-✅ Secrets analyzer behind config flag  
-✅ Enabled by default only when `detect-secrets` installed  
-✅ Redaction tests pass, no literal secrets in artifacts  
-✅ Config validate/show commands documented with examples  
-✅ Progress bars and interactive mode disabled by default  
-✅ Benchmarks stable within 10% of a4  
+✅ Secrets analyzer behind config flag
+✅ Enabled by default only when `detect-secrets` installed
+✅ Redaction tests pass, no literal secrets in artifacts
+✅ Config validate/show commands documented with examples
+✅ Progress bars and interactive mode disabled by default
+✅ Benchmarks stable within 10% of a4
 
 ---
 
 ## 🚫 What NOT to Do in Phase 4
 
-❌ Do not introduce new CLI flags in a4 except `--verbose`  
-❌ Do not add IDE extensions or dashboards  
-❌ Do not replace Safety or Bandit yet  
-❌ Do not add plugin system scaffolding (separate program of work)  
+❌ Do not introduce new CLI flags in a4 except `--verbose`
+❌ Do not add IDE extensions or dashboards
+❌ Do not replace Safety or Bandit yet
+❌ Do not add plugin system scaffolding (separate program of work)
 
 ---
 

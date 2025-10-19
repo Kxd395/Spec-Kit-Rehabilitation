@@ -1,8 +1,8 @@
 # Spec-Kit: Project Specification (Reworked)
 
-**Version**: v0.1.0a4 → v0.1.0a5  
-**Status**: Active Development (Phase 5)  
-**Last Updated**: 2025-10-19  
+**Version**: v0.1.0a4 → v0.1.0a5
+**Status**: Active Development (Phase 5)
+**Last Updated**: 2025-10-19
 **Type**: Python CLI Security Analysis Tool
 
 ---
@@ -600,6 +600,6 @@ tests/
 
 ---
 
-**Next Review**: After Phase 5 completion (v0.1.0a5)  
-**Maintained By**: Development Team  
+**Next Review**: After Phase 5 completion (v0.1.0a5)
+**Maintained By**: Development Team
 **Questions**: Open an issue on GitHub

@@ -1,7 +1,7 @@
 # Phase 4 Implementation Guide - Ready to Execute
 
-**Date**: October 18, 2025  
-**Based On**: 
+**Date**: October 18, 2025
+**Based On**:
 - `Review/review41.md` (Critical review)
 - `Review/update4.md` (Implementation pack with code)
 - `PHASE_4_REVISED_PLAN.md` (Strategy)
@@ -33,9 +33,9 @@ Before starting:
 
 ## 🚀 PR-1: Extract UI Banner Module (Start Here!)
 
-**Time**: 2-3 hours  
-**Files**: 3-5 files  
-**Risk**: LOW  
+**Time**: 2-3 hours
+**Files**: 3-5 files
+**Risk**: LOW
 
 ### Step 1: Create Feature Branch
 
@@ -221,9 +221,9 @@ First step in Phase 4 refactoring: Extract banner functionality to modular struc
 
 ## 🔄 PR-2: Extract GitHub Module
 
-**Time**: 3-4 hours  
-**Files**: 4-6 files  
-**Dependencies**: PR-1 merged  
+**Time**: 3-4 hours
+**Files**: 4-6 files
+**Dependencies**: PR-1 merged
 
 ### Step 1: Create Feature Branch
 
@@ -384,7 +384,7 @@ def test_extract_zip_safe_blocks_traversal(tmp_path: Path):
     with ZipFile(zpath, "w") as z:
         z.writestr("folder/hello.txt", "ok")
         z.writestr("../evil.txt", "nope")  # traversal attempt
-    
+
     out = tmp_path / "out"
     with pytest.raises(UnsafeZipEntry):
         extract_zip_safe(zpath, out, members=["../evil.txt"])
@@ -394,7 +394,7 @@ def test_extract_zip_safe_handles_utf8_filenames(tmp_path: Path):
     zpath = tmp_path / "unicode.zip"
     with ZipFile(zpath, "w") as z:
         z.writestr("folder/文件.txt", "content")
-    
+
     out = tmp_path / "out"
     paths = extract_zip_safe(zpath, out)
     assert any("文件.txt" in str(p) for p in paths)
@@ -405,7 +405,7 @@ def test_extract_zip_safe_strips_top_level_folder(tmp_path: Path):
     with ZipFile(zpath, "w") as z:
         z.writestr("repo-main/src/file.py", "code")
         z.writestr("repo-main/README.md", "docs")
-    
+
     out = tmp_path / "out"
     paths = extract_zip_safe(zpath, out)
     # Files should be at out/src/file.py, not out/repo-main/src/file.py
@@ -472,29 +472,29 @@ git push origin feature/a4-refactor-github
 ## 🔄 Remaining PRs (Quick Reference)
 
 ### PR-3: VS Code Settings Module
-**Branch**: `feature/a4-refactor-vscode`  
-**Files**: `src/specify_cli/vscode/settings.py`, `tests/test_vscode_settings.py`  
-**Time**: 2-3 hours  
+**Branch**: `feature/a4-refactor-vscode`
+**Files**: `src/specify_cli/vscode/settings.py`, `tests/test_vscode_settings.py`
+**Time**: 2-3 hours
 
 ### PR-4: Commands Module
-**Branch**: `feature/a4-refactor-commands`  
-**Files**: `src/specify_cli/commands/init.py`, `check.py`, integration tests  
-**Time**: 3-4 hours  
+**Branch**: `feature/a4-refactor-commands`
+**Files**: `src/specify_cli/commands/init.py`, `check.py`, integration tests
+**Time**: 3-4 hours
 
 ### PR-5: Risk-Weighted Tests
-**Branch**: `feature/a4-risk-weighted-tests`  
-**Files**: 7 test files targeting baseline, config, runner, gitutils, store  
-**Time**: 6-8 hours  
+**Branch**: `feature/a4-risk-weighted-tests`
+**Files**: 7 test files targeting baseline, config, runner, gitutils, store
+**Time**: 6-8 hours
 
 ### PR-6: Performance Harness
-**Branch**: `feature/a4-perf-harness`  
-**Files**: `scripts/bench/generate_repo.py`, `tests/perf/`, CI updates  
-**Time**: 4-6 hours  
+**Branch**: `feature/a4-perf-harness`
+**Files**: `scripts/bench/generate_repo.py`, `tests/perf/`, CI updates
+**Time**: 4-6 hours
 
 ### PR-7: Verbose Mode
-**Branch**: `feature/a4-verbose-mode`  
-**Files**: `src/specify_cli/ui/progress.py`, `summary.py`, audit.py updates  
-**Time**: 2-3 hours  
+**Branch**: `feature/a4-verbose-mode`
+**Files**: `src/specify_cli/ui/progress.py`, `summary.py`, audit.py updates
+**Time**: 2-3 hours
 
 ---
 
@@ -601,7 +601,7 @@ mkdir -p src/specify_cli/ui tests/integration
 # Follow PR-1 steps above
 ```
 
-**Estimated time to first PR merged**: 2-3 hours  
+**Estimated time to first PR merged**: 2-3 hours
 **Estimated time to v0.1.0a4 release**: 4-6 weeks
 
 ---

@@ -1,7 +1,7 @@
 # MVP to Production: Implementation Roadmap
 
-**Created:** October 18, 2025  
-**Status:** Ready to implement  
+**Created:** October 18, 2025
+**Status:** Ready to implement
 **Target:** Turn Spec-Kit from proof-of-concept to production-ready security analysis tool
 
 ---
@@ -165,15 +165,15 @@ def audit(
     fail_on_severity: Optional[str] = typer.Option(None, help="Exit 1 on severity"),
 ):
     """Run security and quality audit."""
-    
+
     # Load config
     cfg = load_config(config_path=config)
     cfg = apply_env_overrides(cfg)
-    
+
     # CLI flag overrides config
     if fail_on_severity:
         cfg.ci.fail_on_severity = fail_on_severity
-    
+
     # ... rest of audit logic
 ```
 
@@ -193,10 +193,10 @@ def run_bandit(path: Path) -> list:
         capture_output=True,
         text=True,
     )
-    
+
     data = json.loads(result.stdout)
     findings = []
-    
+
     for result in data.get("results", []):
         findings.append({
             "rule_id": result["test_id"],
@@ -206,7 +206,7 @@ def run_bandit(path: Path) -> list:
             "severity": result["issue_severity"],
             "confidence": result["issue_confidence"],
         })
-    
+
     return findings
 ```
 
@@ -285,31 +285,31 @@ git push origin main
 **Before (Oct 17):** AI prompt templates pretending to be analysis tools
 
 **After (Oct 18 - Phase 1 DONE):**
-✅ Real configuration system  
-✅ GitHub Code Scanning integration  
-✅ Baseline management  
-✅ Exit code policies  
+✅ Real configuration system
+✅ GitHub Code Scanning integration
+✅ Baseline management
+✅ Exit code policies
 
 **After Phase 2:**
-✅ Real security findings from Bandit  
-✅ Real CVE checking from Safety  
-✅ Real secrets detection  
+✅ Real security findings from Bandit
+✅ Real CVE checking from Safety
+✅ Real secrets detection
 
 **After Phase 6:**
-✅ Production-ready security analysis product  
-✅ Used across multiple teams  
-✅ Competitive with commercial tools  
+✅ Production-ready security analysis product
+✅ Used across multiple teams
+✅ Competitive with commercial tools
 
 ---
 
 ## 📝 Manager's Summary
 
-**Title:** Spec-Kit MVP to Production Implementation Plan  
-**Date:** October 18, 2025  
-**Scope:** 30 concrete gaps identified across 6 phases  
-**Timeline:** 2-4 months (170-260 hours)  
-**Phase 1 Status:** ✅ COMPLETE (config, SARIF, baseline implemented)  
-**Next Sprint:** Integrate Bandit, Safety, secrets detection (Phase 2)  
+**Title:** Spec-Kit MVP to Production Implementation Plan
+**Date:** October 18, 2025
+**Scope:** 30 concrete gaps identified across 6 phases
+**Timeline:** 2-4 months (170-260 hours)
+**Phase 1 Status:** ✅ COMPLETE (config, SARIF, baseline implemented)
+**Next Sprint:** Integrate Bandit, Safety, secrets detection (Phase 2)
 **Expected MVP:** End of Week 3 (real security scanning working)
 
 ---

@@ -1,4 +1,5 @@
 """SARIF reporter for GitHub Code Scanning integration."""
+
 from __future__ import annotations
 import json
 import hashlib
@@ -8,10 +9,10 @@ from typing import Dict, List
 
 def _hash(s: str) -> str:
     """Generate short hash for fingerprinting.
-    
+
     Args:
         s: String to hash
-        
+
     Returns:
         First 16 chars of SHA256 hash
     """
@@ -20,17 +21,17 @@ def _hash(s: str) -> str:
 
 def bandit_findings_to_sarif(findings: List[Dict], repo_root: Path) -> Dict:
     """Convert Bandit findings to SARIF 2.1.0 format.
-    
+
     Args:
         findings: List of finding dictionaries from BanditAnalyzer
         repo_root: Root directory of the repository
-        
+
     Returns:
         SARIF document as dictionary
     """
     rules = {}
     results = []
-    
+
     for f in findings:
         rule_id = f["rule_id"]
         if rule_id not in rules:
@@ -43,24 +44,26 @@ def bandit_findings_to_sarif(findings: List[Dict], repo_root: Path) -> Dict:
             }
             if f.get("cwe"):
                 rules[rule_id]["properties"]["cwe"] = f"CWE-{f['cwe']}"
-        
+
         phys_loc = {
             "artifactLocation": {
                 "uri": str(Path(f["file_path"]).resolve().relative_to(repo_root.resolve()))
             },
             "region": {"startLine": int(f["line"])},
         }
-        
+
         results.append(
             {
                 "ruleId": rule_id,
                 "level": _map_level(f["severity"]),
                 "message": {"text": f["message"]},
                 "locations": [{"physicalLocation": phys_loc}],
-                "fingerprints": {"primaryLocationLineHash": _hash(f"{f['file_path']}:{f['line']}:{rule_id}")},
+                "fingerprints": {
+                    "primaryLocationLineHash": _hash(f"{f['file_path']}:{f['line']}:{rule_id}")
+                },
             }
         )
-    
+
     sarif = {
         "version": "2.1.0",
         "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0.json",
@@ -81,10 +84,10 @@ def bandit_findings_to_sarif(findings: List[Dict], repo_root: Path) -> Dict:
 
 def _map_level(sev: str) -> str:
     """Map severity to SARIF level.
-    
+
     Args:
         sev: Severity string (HIGH, MEDIUM, LOW)
-        
+
     Returns:
         SARIF level (error, warning, note)
     """
@@ -98,11 +101,11 @@ def _map_level(sev: str) -> str:
 
 def write_sarif(doc: Dict, out_path: Path) -> Path:
     """Write SARIF document to file.
-    
+
     Args:
         doc: SARIF document dictionary
         out_path: Path to write to
-        
+
     Returns:
         Path that was written
     """

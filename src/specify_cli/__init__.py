@@ -36,7 +36,19 @@ from .agent_config import AGENT_CONFIG
 from .commands import check_tool
 from .commands import init as init_command
 from .console import console
+from .gitutils import is_git_repo
 from .ui import StepTracker, show_banner
+
+__all__ = [
+    "AGENT_CONFIG",
+    "check_tool",
+    "init_command",
+    "console",
+    "is_git_repo",
+    "StepTracker",
+    "show_banner",
+]
+
 # Agent configuration moved to src/specify_cli/agent_config.py
 # Script type choices moved to src/specify_cli/config.py
 # CLAUDE_LOCAL_PATH moved to src/specify_cli/commands/init.py

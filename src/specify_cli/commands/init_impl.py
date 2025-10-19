@@ -73,8 +73,8 @@ def ensure_executable_scripts(project_path: Path, tracker: StepTracker | None = 
             )
         if failures:
             console.print("[yellow]Some scripts could not be updated:[/yellow]")
-            for f in failures:
-                console.print(f"  - {f}")
+            for failure in failures:
+                console.print(f"  - {failure}")
 
 
 def check_tool(tool_name: str) -> bool:
@@ -83,16 +83,16 @@ def check_tool(tool_name: str) -> bool:
 
 
 def init(
-    project_name: str = typer.Argument(
+    project_name: str | None = typer.Argument(
         None,
         help="Name for your new project directory (optional if using --here, or use '.' for current directory)",
     ),
-    ai_assistant: str = typer.Option(
+    ai_assistant: str | None = typer.Option(
         None,
         "--ai",
         help="AI assistant to use: claude, gemini, copilot, cursor-agent, qwen, opencode, codex, windsurf, kilocode, auggie, codebuddy, or q",
     ),
-    script_type: str = typer.Option(None, "--script", help="Script type to use: sh or ps"),
+    script_type: str | None = typer.Option(None, "--script", help="Script type to use: sh or ps"),
     ignore_agent_tools: bool = typer.Option(
         False, "--ignore-agent-tools", help="Skip checks for AI agent tools like Claude Code"
     ),
@@ -180,6 +180,7 @@ def init(
                     console.print("[yellow]Operation cancelled[/yellow]")
                     raise typer.Exit(0)
     else:
+        assert project_name is not None  # Guaranteed by validation above (line 155-158)
         project_path = Path(project_name).resolve()
         if project_path.exists():
             error_panel = Panel(
@@ -265,7 +266,7 @@ def init(
 
     tracker = StepTracker("Initialize Specify Project")
 
-    sys._specify_tracker_active = True
+    sys._specify_tracker_active = True  # type: ignore[attr-defined]
 
     tracker.add("precheck", "Check required tools")
     tracker.complete("precheck", "ok")
@@ -373,7 +374,7 @@ def init(
     # Agent folder security notice
     agent_config = AGENT_CONFIG.get(selected_ai)
     if agent_config:
-        agent_folder = agent_config["folder"]
+        agent_folder: str = agent_config["folder"]  # type: ignore[assignment]
         security_notice = Panel(
             f"Some agents may store credentials, auth tokens, or other identifying and private artifacts in the agent folder within your project.\n"
             f"Consider adding [cyan]{agent_folder}[/cyan] (or parts of it) to [cyan].gitignore[/cyan] to prevent accidental credential leakage.",
