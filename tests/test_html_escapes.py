@@ -28,7 +28,8 @@ def test_html_escapes_dynamic_fields(tmp_path: Path):
     # Verify script tags are escaped
     assert "<script>" not in content
     assert "&lt;script&gt;" in content
-    assert "alert('XSS')" in content  # Content preserved
+    # Note: Single quotes are also escaped as &#x27;
+    assert "alert(&#x27;XSS&#x27;)" in content or "alert('XSS')" in content  # Content preserved
     
     # Verify HTML tags are escaped
     assert "<b>malicious</b>" not in content

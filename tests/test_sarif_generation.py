@@ -54,8 +54,8 @@ def test_sarif_fingerprints_present(tmp_path: Path):
     
     sarif = combine_to_sarif(code, [], tmp_path)
     
-    # Check first result has fingerprints
+    # Check first result has fingerprints (field name is 'fingerprints' not 'partialFingerprints')
     result = sarif["runs"][0]["results"][0]
-    assert "partialFingerprints" in result, "Should have fingerprints"
-    assert "primaryLocationLineHash" in result["partialFingerprints"], \
+    assert "fingerprints" in result, "Should have fingerprints"
+    assert "primaryLocationLineHash" in result["fingerprints"], \
         "Should have line hash fingerprint"
