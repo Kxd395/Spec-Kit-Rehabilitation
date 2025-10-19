@@ -5,6 +5,7 @@ from .github.auth import get_auth_headers as _github_auth_headers
 from .github.download import download_template_from_github
 from .github.extraction import download_and_extract_template
 from .vscode.settings import handle_vscode_settings, merge_json_files
+from .commands.init import check_tool, is_git_repo, init_git_repo, CLAUDE_LOCAL_PATH
 
 __all__ = [
     "show_banner",
@@ -14,5 +15,9 @@ __all__ = [
     "download_and_extract_template",
     "handle_vscode_settings",
     "merge_json_files",
+    "check_tool",
+    "is_git_repo",
+    "init_git_repo",
+    "CLAUDE_LOCAL_PATH",
 ]
 
