@@ -37,10 +37,43 @@ class AnalyzersCfg:
     secrets: bool = False
 
 @dataclass
+class SecurityCfg:
+    """Security analysis configuration."""
+    severity_threshold: str = "MEDIUM"
+    allow_list: list[str] = None  # Rule IDs to skip
+    deny_list: list[str] = None   # Rule IDs to always report
+    
+    def __post_init__(self):
+        if self.allow_list is None:
+            self.allow_list = []
+        if self.deny_list is None:
+            self.deny_list = []
+
+@dataclass
+class CICfg:
+    """CI/CD integration configuration."""
+    fail_on_severity: str = "HIGH"
+    max_findings: int = -1  # -1 = unlimited
+
+@dataclass
+class PerformanceCfg:
+    """Performance tuning configuration."""
+    max_workers: int = 4
+
+@dataclass
+class TelemetryCfg:
+    """Telemetry configuration."""
+    enabled: bool = False
+
+@dataclass
 class SpecKitConfig:
     analysis: AnalysisCfg = None
     output: OutputCfg = None
     analyzers: AnalyzersCfg = None
+    security: SecurityCfg = None
+    ci: CICfg = None
+    performance: PerformanceCfg = None
+    telemetry: TelemetryCfg = None
     exclude_paths: list[str] = None
     
     def __post_init__(self):
@@ -50,8 +83,91 @@ class SpecKitConfig:
             self.output = OutputCfg()
         if self.analyzers is None:
             self.analyzers = AnalyzersCfg()
+        if self.security is None:
+            self.security = SecurityCfg()
+        if self.ci is None:
+            self.ci = CICfg()
+        if self.performance is None:
+            self.performance = PerformanceCfg()
+        if self.telemetry is None:
+            self.telemetry = TelemetryCfg()
         if self.exclude_paths is None:
             self.exclude_paths = []
+    
+    @classmethod
+    def from_dict(cls, data: dict) -> "SpecKitConfig":
+        """Create config from dictionary (e.g., parsed TOML).
+        
+        Args:
+            data: Configuration dictionary
+            
+        Returns:
+            SpecKitConfig instance with values from dict
+        """
+        cfg = cls()
+        
+        # Security section
+        if "security" in data:
+            s = data["security"]
+            cfg.security = SecurityCfg(
+                severity_threshold=s.get("severity_threshold", cfg.security.severity_threshold),
+                allow_list=s.get("allow_list", cfg.security.allow_list),
+                deny_list=s.get("deny_list", cfg.security.deny_list),
+            )
+        
+        # CI section
+        if "ci" in data:
+            c = data["ci"]
+            cfg.ci = CICfg(
+                fail_on_severity=c.get("fail_on_severity", cfg.ci.fail_on_severity),
+                max_findings=c.get("max_findings", cfg.ci.max_findings),
+            )
+        
+        # Performance section
+        if "performance" in data:
+            p = data["performance"]
+            cfg.performance = PerformanceCfg(
+                max_workers=p.get("max_workers", cfg.performance.max_workers),
+            )
+        
+        # Telemetry section
+        if "telemetry" in data:
+            t = data["telemetry"]
+            cfg.telemetry = TelemetryCfg(
+                enabled=t.get("enabled", cfg.telemetry.enabled),
+            )
+        
+        # Analysis section
+        if "analysis" in data:
+            a = data["analysis"]
+            cfg.analysis = AnalysisCfg(
+                fail_on=a.get("fail_on", cfg.analysis.fail_on),
+                respect_baseline=a.get("respect_baseline", cfg.analysis.respect_baseline),
+                changed_only=a.get("changed_only", cfg.analysis.changed_only),
+            )
+        
+        # Output section
+        if "output" in data:
+            o = data["output"]
+            cfg.output = OutputCfg(
+                format=o.get("format", cfg.output.format),
+                directory=o.get("directory", cfg.output.directory),
+            )
+        
+        # Analyzers section
+        if "analyzers" in data:
+            z = data["analyzers"]
+            cfg.analyzers = AnalyzersCfg(
+                bandit=z.get("bandit", cfg.analyzers.bandit),
+                safety=z.get("safety", cfg.analyzers.safety),
+                secrets=z.get("secrets", cfg.analyzers.secrets),
+            )
+        
+        # Exclude paths
+        if "exclude" in data and "paths" in data["exclude"]:
+            cfg.exclude_paths = list(data["exclude"]["paths"])
+        
+        return cfg
 
 def load_config(repo_root: Path, file_path: Optional[Path] = None) -> SpecKitConfig:
     """Load configuration from .speckit.toml with ENV overrides.
@@ -97,3 +213,55 @@ def load_config(repo_root: Path, file_path: Optional[Path] = None) -> SpecKitCon
     cfg.analyzers.safety = _env_bool("SPECKIT_SAFETY", cfg.analyzers.safety)
     cfg.analyzers.secrets = _env_bool("SPECKIT_SECRETS", cfg.analyzers.secrets)
     return cfg
+
+
+def get_severity_level(severity: str) -> int:
+    """Convert severity string to numeric level.
+    
+    Args:
+        severity: Severity string (LOW, MEDIUM, HIGH, CRITICAL)
+        
+    Returns:
+        Numeric level (0=LOW, 1=MEDIUM, 2=HIGH, 3=CRITICAL)
+    """
+    severity_map = {
+        "LOW": 0,
+        "MEDIUM": 1,
+        "HIGH": 2,
+        "CRITICAL": 3,
+    }
+    return severity_map.get(severity.upper(), 1)  # Default to MEDIUM
+
+
+def should_report_finding(
+    finding_severity: str,
+    threshold: str,
+    allow_list: list[str],
+    deny_list: list[str],
+    rule_id: str,
+) -> bool:
+    """Determine if a finding should be reported.
+    
+    Args:
+        finding_severity: Severity of the finding
+        threshold: Minimum severity threshold
+        allow_list: Rule IDs to skip (even if they meet threshold)
+        deny_list: Rule IDs to always report (even if below threshold)
+        rule_id: The finding's rule ID
+        
+    Returns:
+        True if finding should be reported, False otherwise
+    """
+    # Check deny list first (highest priority)
+    if rule_id in deny_list:
+        return True
+    
+    # Check allow list (skip even if meets threshold)
+    if rule_id in allow_list:
+        return False
+    
+    # Check severity threshold
+    finding_level = get_severity_level(finding_severity)
+    threshold_level = get_severity_level(threshold)
+    
+    return finding_level >= threshold_level
