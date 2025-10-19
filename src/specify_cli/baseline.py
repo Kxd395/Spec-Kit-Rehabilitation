@@ -273,3 +273,41 @@ def check_inline_suppression(
         
     except Exception:
         return None
+
+
+# Convenience functions for simple baseline usage
+BASELINE_PATH = Path(".speckit/baseline.json")
+
+
+def _fingerprint(item: Dict) -> str:
+    """Generate stable fingerprint for a finding."""
+    key = f"{item.get('file_path')}:{item.get('line')}:{item.get('rule_id')}:{item.get('message')}"
+    return hashlib.sha256(key.encode("utf-8")).hexdigest()
+
+
+def load_baseline(path: Path = BASELINE_PATH) -> Set[str]:
+    """Load baseline fingerprints from JSON file."""
+    if not path.exists():
+        return set()
+    try:
+        data = json.loads(path.read_text())
+        return set(data.get("fingerprints", []))
+    except Exception:
+        return set()
+
+
+def write_baseline(findings: List[Dict], path: Path = BASELINE_PATH) -> Path:
+    """Write baseline fingerprints to JSON file."""
+    fp = [_fingerprint(f) for f in findings]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"algo": "speckit-sha256-v1", "fingerprints": fp}, indent=2))
+    return path
+
+
+def filter_with_baseline(findings: List[Dict], baseline: Set[str]) -> List[Dict]:
+    """Filter out findings that exist in baseline."""
+    out = []
+    for f in findings:
+        if _fingerprint(f) not in baseline:
+            out.append(f)
+    return out
