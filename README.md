@@ -1,7 +1,7 @@
 <div align="center">
     <img src="./media/logo_small.webp"/>
-    <h1>🌱 Spec Kit</h1>
-    <h3><em>Build high-quality software faster.</em></h3>
+    <h1>🌱 Spec-Kit</h1>
+    <h3><em>Build high-quality software faster with specification-driven development.</em></h3>
 </div>
 
 <p align="center">
@@ -9,81 +9,105 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/github/spec-kit/actions/workflows/release.yml"><img src="https://github.com/github/spec-kit/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
-    <a href="https://github.com/github/spec-kit/stargazers"><img src="https://img.shields.io/github/stars/github/spec-kit?style=social" alt="GitHub stars"/></a>
-    <a href="https://github.com/github/spec-kit/blob/main/LICENSE"><img src="https://img.shields.io/github/license/github/spec-kit" alt="License"/></a>
-    <a href="https://github.github.io/spec-kit/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue" alt="Documentation"/></a>
+    <a href="https://github.com/Kxd395/Spec-Kit-Rehabilitation/actions/workflows/ci.yml"><img src="https://github.com/Kxd395/Spec-Kit-Rehabilitation/actions/workflows/ci.yml/badge.svg" alt="CI"/></a>
+    <a href="https://github.com/Kxd395/Spec-Kit-Rehabilitation/actions/workflows/pre-commit.yml"><img src="https://github.com/Kxd395/Spec-Kit-Rehabilitation/actions/workflows/pre-commit.yml/badge.svg" alt="Pre-commit"/></a>
+    <a href="https://pypi.org/project/specify-cli/"><img src="https://img.shields.io/pypi/v/specify-cli" alt="PyPI version"/></a>
+    <a href="https://pypi.org/project/specify-cli/"><img src="https://img.shields.io/pypi/pyversions/specify-cli" alt="Python versions"/></a>
+    <a href="https://github.com/Kxd395/Spec-Kit-Rehabilitation/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Kxd395/Spec-Kit-Rehabilitation" alt="License"/></a>
+    <a href="https://github.com/Kxd395/Spec-Kit-Rehabilitation"><img src="https://img.shields.io/badge/code%20style-ruff-000000.svg" alt="Code style: ruff"/></a>
+    <a href="https://github.com/Kxd395/Spec-Kit-Rehabilitation"><img src="https://img.shields.io/badge/type%20checked-mypy-blue.svg" alt="Type checked: mypy"/></a>
 </p>
+
+---
+
+## ✨ Features
+
+- 🎯 **Specification-First Development** - Write what you want to build, not how to build it
+- 🔒 **Security Scanning** - Integrated Bandit and Safety with SARIF output for GitHub Code Scanning
+- 🤖 **AI Assistant Integration** - Works with GitHub Copilot, Claude, and other AI tools
+- 📋 **Structured Templates** - Constitution, specifications, plans, tasks, and implementation guides
+- 🔄 **Project Rehabilitation** - AI-assisted prompts for analyzing and improving existing codebases
+- 🏥 **Environment Doctor** - Check for required dependencies (bandit, safety, git)
+- 📊 **Multiple Output Formats** - SARIF, HTML, and JSON reports
+- ⚙️ **Configurable** - Flexible `.speckit.toml` configuration with environment variable support
+- 🚀 **Production Ready** - 100% test pass rate, 62% code coverage, full type safety
 
 ---
 
 ## Table of Contents
 
+- [✨ Features](#-features)
+- [📦 Installation](#-installation)
+- [⚡ Quick Start](#-quick-start)
 - [🤔 What is Spec-Driven Development?](#-what-is-spec-driven-development)
-- [⚡ Get Started](#-get-started)
-- [� Project Rehabilitation](#-project-rehabilitation) **← EXPERIMENTAL**
-- [⚠️ Important Limitations](#️-important-limitations) **← READ THIS**
-- [�📽️ Video Overview](#️-video-overview)
-- [🤖 Supported AI Agents](#-supported-ai-agents)
-- [🔧 Specify CLI Reference](#-specify-cli-reference)
-- [📚 Core Philosophy](#-core-philosophy)
-- [🌟 Development Phases](#-development-phases)
-- [🎯 Experimental Goals](#-experimental-goals)
-- [🔧 Prerequisites](#-prerequisites)
-- [📖 Learn More](#-learn-more)
-- [📋 Detailed Process](#-detailed-process)
-- [🔍 Troubleshooting](#-troubleshooting)
-- [👥 Maintainers](#-maintainers)
-- [💬 Support](#-support)
+- [🔒 Security Scanning](#-security-scanning)
+- [🔄 Project Rehabilitation](#-project-rehabilitation) **← EXPERIMENTAL**
+- [ Specify CLI Reference](#-specify-cli-reference)
+- [⚙️ Configuration](#️-configuration)
+- [� Documentation](#-documentation)
 - [🤝 Contributing](#-contributing)
-- [🙏 Acknowledgements](#-acknowledgements)
 - [📄 License](#-license)
 
 ## 🤔 What is Spec-Driven Development?
 
 Spec-Driven Development **flips the script** on traditional software development. For decades, code has been king — specifications were just scaffolding we built and discarded once the "real work" of coding began. Spec-Driven Development changes this: **specifications become executable**, directly generating working implementations rather than just guiding them.
 
-## ⚡ Get Started
+## 📦 Installation
 
-### 1. Install Specify CLI
-
-Choose your preferred installation method:
-
-#### Option 1: Persistent Installation (Recommended)
-
-Install once and use everywhere:
+### From Git (Development Version)
 
 ```bash
-uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+# Persistent installation (recommended)
+uv tool install specify-cli --from git+https://github.com/Kxd395/Spec-Kit-Rehabilitation.git
+
+# Or use directly without installing
+uvx --from git+https://github.com/Kxd395/Spec-Kit-Rehabilitation.git specify --version
 ```
 
-Then use the tool directly:
+### From PyPI (Coming Soon)
 
 ```bash
-specify init <PROJECT_NAME>
-specify check
+# Once published to PyPI
+pip install specify-cli
+# or
+uv tool install specify-cli
 ```
 
-To upgrade specify run:
+### System Requirements
+
+- Python 3.10 or higher
+- Git (for project initialization and rehabilitation features)
+- Optional: Bandit, Safety (for security scanning)
+
+### Verify Installation
 
 ```bash
-uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git
+specify --version
+specify doctor run  # Check for optional dependencies
 ```
 
-#### Option 2: One-time Usage
+---
 
-Run directly without installing:
+## ⚡ Quick Start
+
+### Security Scanning
+
+Run comprehensive security analysis on your Python project:
 
 ```bash
-uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>
+# Navigate to your project
+cd /path/to/your/project
+
+# Run security audit
+specify audit run --output sarif --fail-on MEDIUM
+
+# Check what's installed
+specify doctor run
 ```
 
-**Benefits of persistent installation:**
+### Spec-Driven Development Workflow
 
-- Tool stays installed and available in PATH
-- No need to create shell aliases
-- Better tool management with `uv tool list`, `uv tool upgrade`, `uv tool uninstall`
-- Cleaner shell configuration
+Start a new project with AI-assisted development:
 
 ### 2. Establish project principles
 
