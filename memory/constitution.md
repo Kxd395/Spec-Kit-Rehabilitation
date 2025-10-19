@@ -1,4 +1,12 @@
-# [PROJECT_NAME] Constitution
+# Spec-Kit Development Constitution
+
+> **For active development rules and workflow, see [DEVELOPMENT_WORKFLOW.md](../DEVELOPMENT_WORKFLOW.md)**
+
+This is a **template file** for projects that use Spec-Kit. For Spec-Kit's own development rules, the canonical document is `DEVELOPMENT_WORKFLOW.md` in the repository root.
+
+---
+
+## Template: [PROJECT_NAME] Constitution
 <!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
 
 ## Core Principles
