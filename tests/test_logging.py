@@ -1,8 +1,7 @@
 """Test logging configuration."""
 
 import logging
-import os
-from specify_cli.logging import get_logger
+from specify_cli.logging_config import get_logger, setup_logging
 
 
 class TestGetLogger:
@@ -13,37 +12,40 @@ class TestGetLogger:
         logger = get_logger("test_module")
 
         assert isinstance(logger, logging.Logger)
-        assert logger.name == "test_module"
+        assert logger.name == "specify_cli.test_module"
 
     def test_get_logger_default_level(self):
         """Test default log level is INFO."""
-        # Clear any existing env var
-        if "SPECKIT_LOG_LEVEL" in os.environ:
-            del os.environ["SPECKIT_LOG_LEVEL"]
+        # Setup logging with default level
+        setup_logging()
 
         get_logger("test_module")
 
-        # Check root logger level (since basicConfig sets it)
-        root_logger = logging.getLogger()
-        assert root_logger.level == logging.INFO
+        # Check that the specify_cli logger has INFO level
+        spec_logger = logging.getLogger("specify_cli")
+        assert spec_logger.level == logging.INFO
 
-    def test_get_logger_custom_level(self, monkeypatch):
-        """Test custom log level from environment."""
-        monkeypatch.setenv("SPECKIT_LOG_LEVEL", "DEBUG")
+    def test_get_logger_custom_level(self):
+        """Test custom log level from debug flag."""
+        # Setup logging with debug enabled
+        setup_logging(debug=True)
 
         get_logger("test_debug")
 
-        root_logger = logging.getLogger()
-        assert root_logger.level == logging.DEBUG
+        # Check that the specify_cli logger has DEBUG level
+        spec_logger = logging.getLogger("specify_cli")
+        assert spec_logger.level == logging.DEBUG
 
-    def test_get_logger_invalid_level_defaults_to_info(self, monkeypatch):
+    def test_get_logger_invalid_level_defaults_to_info(self):
         """Test invalid log level defaults to INFO."""
-        monkeypatch.setenv("SPECKIT_LOG_LEVEL", "INVALID")
+        # Setup logging with invalid level
+        setup_logging(level="INVALID")
 
         get_logger("test_invalid")
 
-        root_logger = logging.getLogger()
-        assert root_logger.level == logging.INFO
+        # Check that the specify_cli logger defaults to INFO
+        spec_logger = logging.getLogger("specify_cli")
+        assert spec_logger.level == logging.INFO
 
     def test_get_logger_format_includes_level_and_name(self):
         """Test log format includes level and name."""
@@ -51,4 +53,5 @@ class TestGetLogger:
 
         # Logger should be usable
         logger.info("Test message")
-        assert logger.name == "test_format"
+        # New get_logger prefixes with specify_cli
+        assert logger.name == "specify_cli.test_format"
