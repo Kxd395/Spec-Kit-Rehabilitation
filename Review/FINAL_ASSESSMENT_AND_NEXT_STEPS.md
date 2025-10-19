@@ -530,25 +530,32 @@ Month 3: A++ (Enterprise-grade)
 
 **Stop reading. Start coding.**
 
-**Command:**
+**⚡ UPDATED: Complete implementation code ready!**
+
+**See:** `WEEKEND_IMPLEMENTATION_GUIDE.md` for:
+- ✅ Complete Bandit analyzer code (ready to paste)
+- ✅ SARIF reporter implementation
+- ✅ CLI wiring with exit codes
+- ✅ GitHub Actions CI workflow
+- ✅ Dependency configuration
+- ✅ Test examples
+- ✅ Acceptance criteria
+
+**Quick Start:**
 ```bash
-cd src/specify_cli
-mkdir -p analyzers commands
-touch analyzers/bandit_analyzer.py commands/audit.py
-
-# Copy code from PHASE_1_COMPLETE.md Step 2
-# Implement Bandit integration
-# Wire to CLI
-# Test with vulnerable.py
-
-# 6 hours → Working MVP → Grade A-
+# Copy code from WEEKEND_IMPLEMENTATION_GUIDE.md deliverables A-D
+# Or run the guided implementation:
+cd /Users/VScode_Projects/projects/Spec-Kit-Rehabilitation/spec-kit
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[analysis]"
+specify audit --path . --output sarif
 ```
 
 ---
 
 **Project Grade: B+ (82/100)**  
-**Path to A: 6 hours (Bandit integration)**  
+**Path to A: 6 hours (Use WEEKEND_IMPLEMENTATION_GUIDE.md)**  
 **Path to A+: 80 hours (Full MVP)**
 
-**You're 6 hours away from a working security tool.** 🚀
+**You have production-ready code waiting to be implemented.** 🚀
 
