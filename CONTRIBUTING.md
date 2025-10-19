@@ -40,10 +40,202 @@ Here are a few things you can do that will increase the likelihood of your pull 
 
 When working on spec-kit:
 
-1. Test changes with the `specify` CLI commands (`/speckit.specify`, `/speckit.plan`, `/speckit.tasks`) in your coding agent of choice
-2. Verify templates are working correctly in `templates/` directory
-3. Test script functionality in the `scripts/` directory
-4. Ensure memory files (`memory/constitution.md`) are updated if major process changes are made
+1. **Code Quality**: All code must pass pre-commit hooks before committing
+   - Run `pre-commit install` to set up automatic checks
+   - Hooks run automatically on `git commit`
+   - Or manually: `pre-commit run --all-files`
+
+2. **Type Safety**: All Python code must have type annotations
+   - Use `mypy` for type checking (included in pre-commit hooks)
+   - Follow existing patterns for type hints
+   - Required: 100% type coverage on new code
+
+3. **Exception Handling**: Use specific exception types, not broad `Exception`
+   - ✅ Good: `except (OSError, IOError, PermissionError):`
+   - ❌ Bad: `except Exception:`
+   - Only use `Exception` for top-level handlers
+   - Add comments explaining expected error conditions
+
+4. **Logging**: Use structured logging for debugging and monitoring
+
+   ```python
+   from specify_cli.logging_config import get_logger
+   logger = get_logger(__name__)
+
+   logger.debug("Detailed debugging information")
+   logger.info("High-level operation flow")
+   logger.warning("Recoverable issues")
+   logger.error("Error conditions")
+   ```
+
+5. **Version Management**: Use the version sync script for version updates
+
+   ```bash
+   # Check version consistency
+   python scripts/sync_version.py --check
+
+   # Bump patch version (0.1.0 → 0.1.1)
+   python scripts/sync_version.py --bump patch
+
+   # Set specific version
+   python scripts/sync_version.py --set 1.0.0
+   ```
+
+6. **Testing**: Test changes with the `specify` CLI commands
+   - `/speckit.specify`, `/speckit.plan`, `/speckit.tasks` in your coding agent
+   - Verify templates work correctly in `templates/` directory
+   - Test script functionality in the `scripts/` directory
+   - Ensure memory files (`memory/constitution.md`) are updated if needed
+
+7. **Documentation**: Update docs when making user-facing changes
+   - `README.md` for feature changes
+   - `CHANGELOG.md` for all changes (or use version script)
+   - Docstrings for new functions/classes
+
+## Code quality standards
+
+### Pre-commit Hooks
+
+This project uses pre-commit hooks to maintain code quality:
+
+```bash
+# Install hooks (one-time setup)
+pre-commit install
+
+# Run manually on all files
+pre-commit run --all-files
+
+# Run on staged files
+git commit  # Hooks run automatically
+```
+
+Our hooks include:
+
+- **ruff**: Fast Python linter (replaces flake8, isort, etc.)
+- **ruff-format**: Fast Python formatter (replaces black)
+- **mypy**: Static type checker
+- **fix end of files**: Ensures files end with newline
+- **trim trailing whitespace**: Removes trailing spaces
+- **check yaml**: Validates YAML syntax
+- **check toml**: Validates TOML syntax
+- **check for merge conflicts**: Prevents accidental conflict markers
+
+### Type Annotations
+
+All Python code must have type annotations:
+
+```python
+# Good: Function with type hints
+def process_file(path: Path, verbose: bool = False) -> Optional[str]:
+    """Process a file and return its content."""
+    if not path.exists():
+        return None
+    return path.read_text()
+
+# Bad: No type hints
+def process_file(path, verbose=False):
+    if not path.exists():
+        return None
+    return path.read_text()
+```
+
+Type annotation guidelines:
+
+- Use `from __future__ import annotations` for forward references
+- Use `Optional[T]` for values that can be `None`
+- Use `List[T]`, `Dict[K, V]`, `Set[T]` for collections
+- Use `Path` from `pathlib` instead of `str` for file paths
+- Use `TYPE_CHECKING` block for import cycles
+
+### Exception Handling Patterns
+
+Use specific exception types to make error handling clear:
+
+```python
+# File I/O operations
+try:
+    content = path.read_text()
+except (OSError, IOError, UnicodeDecodeError) as e:
+    # File read error or encoding issue
+    logger.error(f"Failed to read {path}: {e}")
+    return None
+
+# Subprocess operations
+try:
+    result = subprocess.run(cmd, check=True, capture_output=True)
+except (OSError, subprocess.SubprocessError) as e:
+    # Command not found or execution failed
+    logger.error(f"Command failed: {e}")
+    raise
+
+# HTTP requests
+try:
+    response = httpx.get(url)
+    response.raise_for_status()
+except (httpx.HTTPError, httpx.RequestError) as e:
+    # HTTP error or network issue
+    logger.error(f"Request failed: {e}")
+    raise
+
+# Top-level handlers (appropriate use of Exception)
+try:
+    # Main application logic
+    init_project(args)
+except Exception as e:
+    # Catch-all for unexpected errors at top level
+    logger.critical(f"Unexpected error: {e}")
+    console.print(Panel(str(e), title="Error", border_style="red"))
+    raise typer.Exit(1)
+```
+
+### Logging Guidelines
+
+Use structured logging throughout the codebase:
+
+```python
+from specify_cli.logging_config import get_logger
+
+logger = get_logger(__name__)
+
+# Debug: Detailed diagnostic information
+logger.debug(f"Processing file: {file_path}")
+logger.debug(f"Git repo check for {path}: {is_repo}")
+
+# Info: High-level operation flow
+logger.info(f"Initializing project: {project_path}")
+logger.info(f"Configuration: AI={ai}, script_type={script}")
+
+# Warning: Recoverable issues
+logger.warning("No manifest found, scanning environment")
+logger.warning("Git not available, skipping repository init")
+
+# Error: Error conditions
+logger.error(f"Directory already exists: {path}")
+logger.error(f"Failed to download template: {e}")
+
+# Critical: System-level failures (rare)
+logger.critical("Unable to initialize logging system")
+```
+
+Logging levels:
+
+- **DEBUG**: Detailed diagnostic info (file paths, git operations, config values)
+- **INFO**: High-level operation flow (project init, download progress)
+- **WARNING**: Recoverable issues (missing files, fallback behavior)
+- **ERROR**: Error conditions (failures that stop the operation)
+- **CRITICAL**: System-level failures (very rare)
+
+Enable verbose logging:
+
+```bash
+# INFO level logging
+specify --verbose init myproject
+
+# DEBUG level logging
+specify --debug init myproject
+```
+
+## Testing and submission workflow
 
 ## AI contributions in Spec Kit
 
