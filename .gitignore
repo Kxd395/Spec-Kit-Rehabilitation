@@ -43,3 +43,10 @@ env/
 .genreleases/
 *.zip
 sdd-*/
+
+# Testing artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover

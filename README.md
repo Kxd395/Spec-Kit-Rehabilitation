@@ -21,7 +21,9 @@
 
 - [🤔 What is Spec-Driven Development?](#-what-is-spec-driven-development)
 - [⚡ Get Started](#-get-started)
-- [📽️ Video Overview](#️-video-overview)
+- [� Project Rehabilitation](#-project-rehabilitation) **← EXPERIMENTAL**
+- [⚠️ Important Limitations](#️-important-limitations) **← READ THIS**
+- [�📽️ Video Overview](#️-video-overview)
 - [🤖 Supported AI Agents](#-supported-ai-agents)
 - [🔧 Specify CLI Reference](#-specify-cli-reference)
 - [📚 Core Philosophy](#-core-philosophy)
@@ -126,7 +128,116 @@ Use **`/speckit.implement`** to execute all tasks and build your feature accordi
 
 For detailed step-by-step instructions, see our [comprehensive guide](./spec-driven.md).
 
-## 📽️ Video Overview
+## � Project Rehabilitation (EXPERIMENTAL)
+
+**⚠️ IMPORTANT:** These features provide **AI-assisted prompt templates** for code analysis, not automated analysis tools. They guide AI assistants like GitHub Copilot to help you understand and improve existing codebases.
+
+### What is Project Rehabilitation?
+
+Instead of just building NEW projects, Spec-Kit provides **structured prompts** to help AI assistants analyze EXISTING projects:
+
+1. **Reverse Engineering** - Prompts to guide AI in generating specs FROM your existing code
+2. **Security Auditing** - Templates for AI-assisted vulnerability identification
+3. **Spec Upgrading** - Frameworks for AI to suggest improved specifications
+4. **Safe Migration** - Structured approaches for AI-guided incremental transformation
+
+**Limitations:**
+
+- ❌ Not deterministic automated scanning (relies on AI interpretation)
+- ❌ Not a replacement for professional security audits
+- ❌ Results depend entirely on the quality of your AI assistant
+- ✅ Good for exploratory analysis and documentation generation
+- ✅ Helpful for understanding unfamiliar codebases
+- ✅ Useful starting point for manual review
+
+### Quick Start for Existing Projects
+
+```bash
+# 1. Navigate to your existing project
+cd /path/to/your/legacy-project
+
+# 2. Initialize Spec-Kit
+specify init . --here --ai copilot
+
+# 3. Use AI-assisted prompts to generate specs from existing code
+/speckit.reverse-engineer
+
+# 4. Get AI guidance on security and quality issues  
+/speckit.audit
+
+# 5. Ask AI to generate improved specifications
+/speckit.upgrade
+
+# 6. Create implementation plan
+/speckit.plan
+
+# 7. Compare old vs new with AI assistance
+/speckit.compare
+
+# 8. Plan migration
+/speckit.migrate
+
+# 9. Implement improvements
+/speckit.implement
+```
+
+**📖 [Read Full Rehabilitation Guide](./PROJECT-REHABILITATION.md)**
+
+---
+
+## ⚠️ Important Limitations
+
+**CRITICAL:** Before using the rehabilitation features, understand what they actually are:
+
+### What Rehabilitation Features ARE:
+- ✅ **AI Prompt Templates**: Structured guidance for AI assistants
+- ✅ **Documentation Kickstart**: Help AI generate initial specs from code
+- ✅ **Exploratory Analysis**: AI-guided code understanding
+- ✅ **Learning Tool**: Understand unfamiliar codebases with AI help
+
+### What They ARE NOT:
+- ❌ **NOT Automated Security Scanners**: No deterministic vulnerability detection
+- ❌ **NOT Production-Ready Auditing**: Results depend on AI quality and are not guaranteed
+- ❌ **NOT Compliance Tools**: Cannot be used for regulatory requirements
+- ❌ **NOT Replacements for Professional Tools**: Use Snyk, SonarQube, etc. for real security
+
+### When to Use:
+- Exploring legacy code you've inherited
+- Generating initial documentation for undocumented projects
+- Getting AI help understanding complex codebases
+- Creating starting points for manual security reviews
+
+### When NOT to Use:
+- Production security audits (hire professionals)
+- Compliance validation (use certified tools)
+- Mission-critical analysis (results not guaranteed)
+- Legal/contractual requirements (not auditable)
+
+**📖 [Read Complete Limitations](./LIMITATIONS.md)** ← **Please read this before using rehabilitation features**
+/speckit.implement
+```
+
+### Use Cases
+
+- ✅ **Legacy Modernization** - Upgrade old applications to modern frameworks
+- ✅ **Security Hardening** - Fix vulnerabilities systematically  
+- ✅ **Documentation Recovery** - Generate specs for undocumented projects
+- ✅ **Architecture Refactoring** - Improve design with minimal risk
+- ✅ **Team Onboarding** - Help new developers understand existing projects
+
+### New Commands for Rehabilitation
+
+| Command | Purpose |
+|---------|---------|
+| `/speckit.reverse-engineer` | Generate specs from existing code |
+| `/speckit.audit` | Security & quality audit |
+| `/speckit.upgrade` | Improve specifications with best practices |
+| `/speckit.compare` | Compare old vs new implementations |
+| `/speckit.migrate` | Create migration plan |
+
+📖 **[Read the complete Project Rehabilitation Guide](./PROJECT-REHABILITATION.md)**
+
+## �📽️ Video Overview
 
 Want to see Spec Kit in action? Watch our [video overview](https://www.youtube.com/watch?v=a9eR1xsfvHg&pp=0gcJCckJAYcqIYzv)!
 
