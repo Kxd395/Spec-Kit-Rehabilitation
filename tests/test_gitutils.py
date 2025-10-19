@@ -74,7 +74,8 @@ class TestGetChangedFiles:
 
         assert isinstance(changed, list)
         assert len(changed) >= 1
-        assert any("test.py" in f for f in changed)
+        # Changed files are now Path objects, not strings
+        assert any("test.py" in str(f) for f in changed)
 
     def test_get_changed_files_non_git_repo(self, tmp_path):
         """Test with non-git directory returns empty list."""
