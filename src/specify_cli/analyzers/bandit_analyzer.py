@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import List, Dict, Any
+import fnmatch
 
 try:
     from bandit.core import manager as bandit_manager
@@ -29,13 +30,28 @@ class BanditFinding:
 class BanditAnalyzer:
     """Wrapper for Bandit security scanner."""
     
-    def __init__(self, target: Path):
+    def __init__(self, target: Path, exclude_globs: List[str] | None = None):
         """Initialize analyzer with target path.
         
         Args:
             target: Directory or file to analyze
+            exclude_globs: List of glob patterns to exclude
         """
         self.target = Path(target)
+        self.exclude_globs = exclude_globs or []
+
+    def _is_excluded(self, p: Path) -> bool:
+        """Check if path matches any exclude pattern.
+        
+        Args:
+            p: Path to check
+            
+        Returns:
+            True if path should be excluded
+        """
+        rel = str(p.relative_to(self.target)) if p.is_absolute() else str(p)
+        return any(fnmatch.fnmatch(rel, pat) or rel.startswith(pat.rstrip("/"))
+                   for pat in self.exclude_globs)
 
     def run(self) -> List[BanditFinding]:
         """Run Bandit analysis on target.
@@ -49,11 +65,14 @@ class BanditAnalyzer:
         cfg = bandit_config.BanditConfig()
         mgr = bandit_manager.BanditManager(cfg, "file")
         
-        # Find Python files, excluding common patterns
+        # Find Python files, excluding common patterns and user-defined globs
         py_files = []
         for p in self.target.rglob("*.py"):
             # Skip virtual environments and build artifacts
             if any(part in p.parts for part in ['.venv', 'venv', '.tox', 'build', 'dist', '__pycache__']):
+                continue
+            # Skip user-defined excludes
+            if self._is_excluded(p):
                 continue
             py_files.append(str(p))
         

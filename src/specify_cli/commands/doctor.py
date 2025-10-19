@@ -1,6 +1,7 @@
-"""Doctor command for environment validation."""
+"""Doctor command for environment checks."""
 from __future__ import annotations
 import importlib
+import shutil
 import typer
 from rich.console import Console
 from rich.table import Table
@@ -9,13 +10,13 @@ app = typer.Typer(help="Environment checks")
 
 
 def _version(mod: str) -> str:
-    """Get version of a module.
+    """Get package version.
     
     Args:
-        mod: Module name to check
+        mod: Module name
         
     Returns:
-        Version string or status message
+        Version string or status
     """
     try:
         m = importlib.import_module(mod)
@@ -26,15 +27,14 @@ def _version(mod: str) -> str:
 
 @app.command("run")
 def doctor():
-    """Check installed tools and versions."""
+    """Check development environment."""
     console = Console()
     t = Table(title="SpecKit Doctor")
     t.add_column("Tool")
     t.add_column("Status")
     t.add_row("bandit", _version("bandit"))
-    t.add_row("safety", _version("safety"))
+    t.add_row("safety (python pkg)", _version("safety"))
+    t.add_row("safety (cli)", shutil.which("safety") or "missing")
     t.add_row("radon", _version("radon"))
-    t.add_row("typer", _version("typer"))
-    t.add_row("rich", _version("rich"))
     console.print(t)
-    console.print("\n[yellow]If missing, run:[/yellow] pip install -e '.[analysis]'")
+    console.print("If missing, run: pip install -e '.[analysis]'")

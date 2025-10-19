@@ -1,0 +1,184 @@
+{
+  "findings": [
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 28,
+      "rule_id": "B404",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Consider possible security implications associated with the subprocess module.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 209,
+      "rule_id": "B110",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Try, Except, Pass detected.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 388,
+      "rule_id": "B602",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "message": "subprocess call with shell=True identified, security issue.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 391,
+      "rule_id": "B602",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "message": "subprocess call with shell=True identified, security issue.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 443,
+      "rule_id": "B607",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Starting a process with a partial executable path",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 443,
+      "rule_id": "B603",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "subprocess call - check for execution of untrusted input.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 468,
+      "rule_id": "B607",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Starting a process with a partial executable path",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 468,
+      "rule_id": "B603",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "subprocess call - check for execution of untrusted input.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 469,
+      "rule_id": "B607",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Starting a process with a partial executable path",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 469,
+      "rule_id": "B603",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "subprocess call - check for execution of untrusted input.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 470,
+      "rule_id": "B607",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Starting a process with a partial executable path",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 470,
+      "rule_id": "B603",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "subprocess call - check for execution of untrusted input.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/__init__.py",
+      "line": 832,
+      "rule_id": "B112",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Try, Except, Continue detected.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/gitutils.py",
+      "line": 3,
+      "rule_id": "B404",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Consider possible security implications associated with the subprocess module.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/gitutils.py",
+      "line": 19,
+      "rule_id": "B607",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Starting a process with a partial executable path",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/gitutils.py",
+      "line": 19,
+      "rule_id": "B603",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "subprocess call - check for execution of untrusted input.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/gitutils.py",
+      "line": 28,
+      "rule_id": "B110",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Try, Except, Pass detected.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/gitutils.py",
+      "line": 33,
+      "rule_id": "B607",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Starting a process with a partial executable path",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/gitutils.py",
+      "line": 33,
+      "rule_id": "B603",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "subprocess call - check for execution of untrusted input.",
+      "cwe": null
+    },
+    {
+      "file_path": "./src/specify_cli/gitutils.py",
+      "line": 42,
+      "rule_id": "B110",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "message": "Try, Except, Pass detected.",
+      "cwe": null
+    }
+  ]
+}

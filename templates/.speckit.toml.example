@@ -1,0 +1,23 @@
+[analysis]
+fail_on = "MEDIUM"
+respect_baseline = true
+changed_only = false
+
+[output]
+format = "sarif"
+directory = ".speckit/analysis"
+
+[analyzers]
+bandit = true
+safety = true
+secrets = false
+
+[exclude]
+paths = [
+  ".venv/**",
+  "venv/**",
+  "build/**",
+  "dist/**",
+  "__pycache__/**",
+  ".git/**"
+]

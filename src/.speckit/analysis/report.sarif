@@ -6,10 +6,566 @@
       "tool": {
         "driver": {
           "name": "SpecKit Bandit Bridge",
-          "rules": []
+          "rules": [
+            {
+              "id": "B404",
+              "shortDescription": {
+                "text": "Bandit B404"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Consider possible security implications associated with the subprocess module.",
+                "markdown": "Consider possible security implications associated with the subprocess module."
+              },
+              "properties": {
+                "tags": [
+                  "security"
+                ],
+                "precision": "HIGH"
+              }
+            },
+            {
+              "id": "B110",
+              "shortDescription": {
+                "text": "Bandit B110"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Try, Except, Pass detected.",
+                "markdown": "Try, Except, Pass detected."
+              },
+              "properties": {
+                "tags": [
+                  "security"
+                ],
+                "precision": "HIGH"
+              }
+            },
+            {
+              "id": "B602",
+              "shortDescription": {
+                "text": "Bandit B602"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "help": {
+                "text": "subprocess call with shell=True identified, security issue.",
+                "markdown": "subprocess call with shell=True identified, security issue."
+              },
+              "properties": {
+                "tags": [
+                  "security"
+                ],
+                "precision": "HIGH"
+              }
+            },
+            {
+              "id": "B607",
+              "shortDescription": {
+                "text": "Bandit B607"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Starting a process with a partial executable path",
+                "markdown": "Starting a process with a partial executable path"
+              },
+              "properties": {
+                "tags": [
+                  "security"
+                ],
+                "precision": "HIGH"
+              }
+            },
+            {
+              "id": "B603",
+              "shortDescription": {
+                "text": "Bandit B603"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "subprocess call - check for execution of untrusted input.",
+                "markdown": "subprocess call - check for execution of untrusted input."
+              },
+              "properties": {
+                "tags": [
+                  "security"
+                ],
+                "precision": "HIGH"
+              }
+            },
+            {
+              "id": "B112",
+              "shortDescription": {
+                "text": "Bandit B112"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Try, Except, Continue detected.",
+                "markdown": "Try, Except, Continue detected."
+              },
+              "properties": {
+                "tags": [
+                  "security"
+                ],
+                "precision": "HIGH"
+              }
+            }
+          ]
         }
       },
-      "results": []
+      "results": [
+        {
+          "ruleId": "B404",
+          "level": "note",
+          "message": {
+            "text": "Consider possible security implications associated with the subprocess module."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 28
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "868531758f8da958"
+          }
+        },
+        {
+          "ruleId": "B110",
+          "level": "note",
+          "message": {
+            "text": "Try, Except, Pass detected."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 209
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "302de3274d98a293"
+          }
+        },
+        {
+          "ruleId": "B602",
+          "level": "error",
+          "message": {
+            "text": "subprocess call with shell=True identified, security issue."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 388
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "9ef95b879606a83e"
+          }
+        },
+        {
+          "ruleId": "B602",
+          "level": "error",
+          "message": {
+            "text": "subprocess call with shell=True identified, security issue."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 391
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "6aca8b34dd2c9f7f"
+          }
+        },
+        {
+          "ruleId": "B607",
+          "level": "note",
+          "message": {
+            "text": "Starting a process with a partial executable path"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 443
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "9f58ad07506cb4f9"
+          }
+        },
+        {
+          "ruleId": "B603",
+          "level": "note",
+          "message": {
+            "text": "subprocess call - check for execution of untrusted input."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 443
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "e24d6dd3b3955e1c"
+          }
+        },
+        {
+          "ruleId": "B607",
+          "level": "note",
+          "message": {
+            "text": "Starting a process with a partial executable path"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 468
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "7d74886f9ea5dbf2"
+          }
+        },
+        {
+          "ruleId": "B603",
+          "level": "note",
+          "message": {
+            "text": "subprocess call - check for execution of untrusted input."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 468
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "39e77ff8b06ebdd0"
+          }
+        },
+        {
+          "ruleId": "B607",
+          "level": "note",
+          "message": {
+            "text": "Starting a process with a partial executable path"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 469
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "bddacfcf3fa9a736"
+          }
+        },
+        {
+          "ruleId": "B603",
+          "level": "note",
+          "message": {
+            "text": "subprocess call - check for execution of untrusted input."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 469
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "7cae9eb779a6280b"
+          }
+        },
+        {
+          "ruleId": "B607",
+          "level": "note",
+          "message": {
+            "text": "Starting a process with a partial executable path"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 470
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "c7277ae5699e674f"
+          }
+        },
+        {
+          "ruleId": "B603",
+          "level": "note",
+          "message": {
+            "text": "subprocess call - check for execution of untrusted input."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 470
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "f9ff7dac2073b8ff"
+          }
+        },
+        {
+          "ruleId": "B112",
+          "level": "note",
+          "message": {
+            "text": "Try, Except, Continue detected."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/__init__.py"
+                },
+                "region": {
+                  "startLine": 832
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "d4cd1e32c0db53d0"
+          }
+        },
+        {
+          "ruleId": "B404",
+          "level": "note",
+          "message": {
+            "text": "Consider possible security implications associated with the subprocess module."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/gitutils.py"
+                },
+                "region": {
+                  "startLine": 3
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "1f6f6db60c55ff0d"
+          }
+        },
+        {
+          "ruleId": "B607",
+          "level": "note",
+          "message": {
+            "text": "Starting a process with a partial executable path"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/gitutils.py"
+                },
+                "region": {
+                  "startLine": 19
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "ae6e9c3a12756e83"
+          }
+        },
+        {
+          "ruleId": "B603",
+          "level": "note",
+          "message": {
+            "text": "subprocess call - check for execution of untrusted input."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/gitutils.py"
+                },
+                "region": {
+                  "startLine": 19
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "a259b985c8674c37"
+          }
+        },
+        {
+          "ruleId": "B110",
+          "level": "note",
+          "message": {
+            "text": "Try, Except, Pass detected."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/gitutils.py"
+                },
+                "region": {
+                  "startLine": 28
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "385afd79390d3b07"
+          }
+        },
+        {
+          "ruleId": "B607",
+          "level": "note",
+          "message": {
+            "text": "Starting a process with a partial executable path"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/gitutils.py"
+                },
+                "region": {
+                  "startLine": 33
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "fb7107a1a66250e4"
+          }
+        },
+        {
+          "ruleId": "B603",
+          "level": "note",
+          "message": {
+            "text": "subprocess call - check for execution of untrusted input."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/gitutils.py"
+                },
+                "region": {
+                  "startLine": 33
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "3fab88bd58310491"
+          }
+        },
+        {
+          "ruleId": "B110",
+          "level": "note",
+          "message": {
+            "text": "Try, Except, Pass detected."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "specify_cli/gitutils.py"
+                },
+                "region": {
+                  "startLine": 42
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "primaryLocationLineHash": "153226cf937d39c4"
+          }
+        }
+      ]
     }
   ]
 }

@@ -7,6 +7,54 @@ All notable changes to the Specify CLI and templates are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0a3] - 2025-10-18
+
+### Added
+
+- **Security Scanning**: Complete Phase 3 implementation with Bandit and Safety analyzers
+  - `specify audit` command with SARIF, HTML, and JSON output formats
+  - SARIF 2.1.0 output compatible with GitHub Code Scanning
+  - HTML reports with XSS-safe escaping using `html.escape()` on all dynamic fields
+  - Baseline filtering system to track only new findings
+  - Exclude pattern support (fnmatch globs) integrated with Bandit analyzer
+  - Smart manifest detection for Safety (6 formats supported)
+  - Exit code gating by severity threshold (HIGH, MEDIUM, LOW)
+  - `--strict` flag to fail when requested analyzers are unavailable
+  - Configuration system with TOML + ENV + CLI precedence
+  - SHA256 fingerprints for finding deduplication
+  - CWE mapping in SARIF rules
+  
+- **Documentation**: Comprehensive documentation for Phase 3 features
+  - `docs/security-scanning.md` - Security scanning guide
+  - `docs/architecture.md` - System architecture overview
+  - `templates/.speckit.toml.example` - Configuration template
+  - README files for all subdirectories (commands, tests, scripts, templates)
+  - Security scanning section in main README with CI integration examples
+
+- **Testing**: Security and configuration test suite
+  - `test_html_escapes.py` - XSS prevention validation
+  - `test_safety_error_handling.py` - Error case handling
+  - `test_excludes_applied.py` - Exclude pattern verification
+  - `test_config_loading.py` - Configuration precedence tests
+  - `test_sarif_generation.py` - SARIF structure validation
+
+- **CI/CD**: GitHub Actions workflows for automated security scanning
+  - `.github/workflows/specify-audit.yml` - SARIF upload to GitHub Code Scanning
+  - `.github/workflows/coverage.yml` - 70% coverage threshold enforcement
+
+### Changed
+
+- **SARIF Reporter**: Now points to real dependency manifest files instead of defaulting to "."
+- **Safety Analyzer**: Explicit error handling with FileNotFoundError when CLI is missing
+- **Config System**: Structured as AnalysisCfg, OutputCfg, AnalyzersCfg with exclude_paths at top level
+- **Audit Command**: Integrated strict mode and config-driven exclude patterns
+
+### Fixed
+
+- **XSS Prevention**: All dynamic fields in HTML reporter now escaped with `html.escape()`
+- **Bandit Integration**: Exclude glob patterns now properly honored
+- **Error Handling**: Safety analyzer raises explicit errors instead of silent failures
+
 ## [0.0.20] - 2025-10-14
 
 ### Added

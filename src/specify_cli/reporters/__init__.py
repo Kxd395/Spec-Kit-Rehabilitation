@@ -1,5 +1,6 @@
 """Report generators for Spec-Kit analysis results."""
 
-from .sarif import SARIFReporter, findings_to_sarif
+from .sarif import combine_to_sarif, write_sarif
+from .html import write_html
 
-__all__ = ["SARIFReporter", "findings_to_sarif"]
+__all__ = ["combine_to_sarif", "write_sarif", "write_html"]

@@ -185,6 +185,78 @@ specify init . --here --ai copilot
 
 ---
 
+## 🔒 Security Scanning
+
+Run Bandit and Safety together and write SARIF for GitHub Code Scanning.
+
+### Quick Start
+
+```bash
+# Run security analysis
+specify audit run --output sarif --fail-on MEDIUM --strict
+
+# Check environment
+specify doctor run
+```
+
+### Outputs
+
+- **SARIF**: `.speckit/analysis/report.sarif` - GitHub Code Scanning compatible
+- **HTML**: `.speckit/analysis/report.html` - Human-readable report  
+- **JSON**: `.speckit/analysis/analysis.json` - Raw JSON output
+
+### Configuration
+
+Create `.speckit.toml` in your repository root. See `templates/.speckit.toml.example` for all options.
+
+```toml
+[analysis]
+fail_on = "MEDIUM"  # HIGH, MEDIUM, or LOW
+respect_baseline = true
+changed_only = false
+
+[output]
+format = "sarif"
+directory = ".speckit/analysis"
+
+[analyzers]
+bandit = true  # Python code security
+safety = true  # Dependency CVEs
+secrets = false  # Secret detection (future)
+
+[exclude]
+paths = [
+  ".venv/**",
+  "build/**",
+  "dist/**"
+]
+```
+
+### Exit Codes
+
+- `0` - No gated findings
+- `1` - Findings at or above `--fail-on` threshold  
+- `2` - Missing analyzers when `--strict` is used
+
+### CI Integration
+
+Upload SARIF to GitHub Code Scanning automatically with the provided workflow:
+
+```yaml
+# .github/workflows/specify-audit.yml
+- name: Run audit
+  run: specify audit run --output sarif --strict
+
+- name: Upload SARIF
+  uses: github/codeql-action/upload-sarif@v3
+  with:
+    sarif_file: .speckit/analysis/report.sarif
+```
+
+**📖 [Read Security Scanning Guide](./docs/security-scanning.md)**
+
+---
+
 ## ⚠️ Important Limitations
 
 **CRITICAL:** Before using the rehabilitation features, understand what they actually are:
