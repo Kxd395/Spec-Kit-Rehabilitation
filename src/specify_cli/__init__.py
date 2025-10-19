@@ -38,6 +38,7 @@ from .commands import init as init_command
 from .console import console
 from .gitutils import is_git_repo
 from .ui import StepTracker, show_banner
+from .logging_config import setup_logging, get_logger
 
 __all__ = [
     "AGENT_CONFIG",
@@ -47,6 +48,8 @@ __all__ = [
     "is_git_repo",
     "StepTracker",
     "show_banner",
+    "setup_logging",
+    "get_logger",
 ]
 
 # Agent configuration moved to src/specify_cli/agent_config.py
@@ -90,8 +93,21 @@ app = typer.Typer(
 
 
 @app.callback()
-def callback(ctx: typer.Context):
+def callback(
+    ctx: typer.Context,
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose output"),
+    debug: bool = typer.Option(False, "--debug", help="Enable debug output"),
+):
     """Show banner when no subcommand is provided."""
+    # Initialize logging based on verbosity flags
+    setup_logging(verbose=verbose, debug=debug)
+    logger = get_logger(__name__)
+
+    if debug:
+        logger.debug("Debug mode enabled")
+    elif verbose:
+        logger.info("Verbose mode enabled")
+
     if ctx.invoked_subcommand is None and "--help" not in sys.argv and "-h" not in sys.argv:
         show_banner()
         console.print(Align.center("[dim]Run 'specify --help' for usage information[/dim]"))

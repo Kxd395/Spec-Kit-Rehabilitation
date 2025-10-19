@@ -5,6 +5,10 @@ import subprocess
 from pathlib import Path
 from typing import List
 
+from .logging_config import get_logger
+
+logger = get_logger(__name__)
+
 
 def is_git_repo(path: Path | str | None = None) -> bool:
     """Check if directory is a git repository.
@@ -30,9 +34,12 @@ def is_git_repo(path: Path | str | None = None) -> bool:
             text=True,
             check=False,
         )
-        return result.returncode == 0
-    except (OSError, subprocess.SubprocessError, FileNotFoundError):
+        is_repo = result.returncode == 0
+        logger.debug(f"Git repo check for {check_path}: {is_repo}")
+        return is_repo
+    except (OSError, subprocess.SubprocessError, FileNotFoundError) as e:
         # Git command not found, directory doesn't exist, or subprocess failed
+        logger.debug(f"Git repo check failed for {check_path}: {e}")
         return False
 
 

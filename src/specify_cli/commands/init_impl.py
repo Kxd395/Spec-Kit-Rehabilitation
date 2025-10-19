@@ -19,6 +19,9 @@ from specify_cli.http import ssl_context
 from specify_cli.ui.banner import show_banner
 from specify_cli.ui.selector import select_with_arrows
 from specify_cli.ui.tracker import StepTracker
+from specify_cli.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 try:
     import httpx
@@ -184,7 +187,9 @@ def init(
     else:
         assert project_name is not None  # Guaranteed by validation above (line 155-158)
         project_path = Path(project_name).resolve()
+        logger.info(f"Initializing new project: {project_path}")
         if project_path.exists():
+            logger.error(f"Directory already exists: {project_path}")
             error_panel = Panel(
                 f"Directory '[cyan]{project_name}[/cyan]' already exists\n"
                 "Please choose a different project name or remove the existing directory.",
@@ -265,6 +270,9 @@ def init(
 
     console.print(f"[cyan]Selected AI assistant:[/cyan] {selected_ai}")
     console.print(f"[cyan]Selected script type:[/cyan] {selected_script}")
+    logger.info(
+        f"Configuration: AI={selected_ai}, script_type={selected_script}, target={project_path}"
+    )
 
     tracker = StepTracker("Initialize Specify Project")
 
