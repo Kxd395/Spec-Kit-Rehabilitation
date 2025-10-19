@@ -35,6 +35,7 @@
 - [🔍 Troubleshooting](#-troubleshooting)
 - [👥 Maintainers](#-maintainers)
 - [💬 Support](#-support)
+- [🤝 Contributing](#-contributing)
 - [🙏 Acknowledgements](#-acknowledgements)
 - [📄 License](#-license)
 
@@ -800,6 +801,32 @@ rm gcm-linux_amd64.2.6.1.deb
 ## 💬 Support
 
 For support, please open a [GitHub issue](https://github.com/github/spec-kit/issues/new). We welcome bug reports, feature requests, and questions about using Spec-Driven Development.
+
+## 🤝 Contributing
+
+We welcome contributions to Spec-Kit! Before contributing, please review:
+
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Contribution guidelines and code of conduct
+- **[DEVELOPMENT_WORKFLOW.md](./DEVELOPMENT_WORKFLOW.md)** - Development workflow rules (mandatory for contributors)
+- **[.github/AI_AGENT_INSTRUCTIONS.md](./.github/AI_AGENT_INSTRUCTIONS.md)** - Instructions for AI coding assistants
+
+### For AI Agents
+
+If you're an AI coding assistant working on Spec-Kit:
+1. **Read [.github/AI_AGENT_INSTRUCTIONS.md](./.github/AI_AGENT_INSTRUCTIONS.md)** - Contains mandatory pre-push checklist
+2. **Follow [DEVELOPMENT_WORKFLOW.md](./DEVELOPMENT_WORKFLOW.md)** - Complete development rules
+3. **Check [.speckit.toml](./.speckit.toml)** - `[development]` section for enforceable rules
+
+### Key Rules
+
+Before **ANY** git push:
+- ✅ Clean repository root (remove temp docs)
+- ✅ Update `CHANGELOG.md`
+- ✅ Bump version if `__init__.py` changed
+- ✅ All tests passing
+- ✅ Coverage maintained (50%+)
+
+See [DEVELOPMENT_WORKFLOW.md](./DEVELOPMENT_WORKFLOW.md) for complete details.
 
 ## 🙏 Acknowledgements
 

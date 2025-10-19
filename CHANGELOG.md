@@ -38,6 +38,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Clarifies that template is for projects using Spec-Kit
   - Points to DEVELOPMENT_WORKFLOW.md for Spec-Kit's own rules
 
+- **README.md**: Added Contributing section with links to development documentation
+  - References DEVELOPMENT_WORKFLOW.md for contributors
+  - Special section for AI agents with mandatory pre-push checklist
+  - Links to AI_AGENT_INSTRUCTIONS.md and .speckit.toml configuration
+
 ## [0.1.0a3] - 2025-10-18
 
 ### Added
