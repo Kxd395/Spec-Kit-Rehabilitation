@@ -13,7 +13,7 @@ from specify_cli.reporters.html import write_html
 from specify_cli.baseline import load_baseline, filter_with_baseline
 from specify_cli.store import save_last_run
 from specify_cli.config import load_config
-from specify_cli.analyzers.bandit_analyzer import BANDIT_AVAILABLE as _BANDIT_OK
+from specify_cli.analyzers.bandit_analyzer import BANDIT as _BANDIT_OK
 
 app = typer.Typer(help="Run static analysis")
 
