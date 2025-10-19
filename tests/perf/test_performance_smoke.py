@@ -9,6 +9,14 @@ import time
 from specify_cli.analyzers.bandit_analyzer import BanditAnalyzer
 from specify_cli.reporters.sarif import combine_to_sarif
 
+# Check if pytest-benchmark is available
+try:
+    import pytest_benchmark  # noqa: F401
+
+    HAS_BENCHMARK = True
+except ImportError:
+    HAS_BENCHMARK = False
+
 
 class TestPerformanceSmoke:
     """Smoke tests to catch performance regressions."""
@@ -94,6 +102,7 @@ class TestPerformanceSmoke:
 
 
 @pytest.mark.benchmark
+@pytest.mark.skipif(not HAS_BENCHMARK, reason="pytest-benchmark not installed")
 class TestPerformanceBenchmarks:
     """Optional benchmark tests (run with --benchmark-only)."""
 

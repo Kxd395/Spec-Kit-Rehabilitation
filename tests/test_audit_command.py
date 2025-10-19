@@ -146,7 +146,21 @@ class TestAuditCommand:
         test_file = tmp_path / "test.py"
         test_file.write_text("print('hello')\n")
 
-        runner.invoke(app, ["audit", "run", "--path", str(tmp_path), "--output", "json"])
+        result = runner.invoke(
+            app,
+            [
+                "audit",
+                "run",
+                "--path",
+                str(tmp_path),
+                "--output",
+                "json",
+                "--no-safety",  # Disable safety to avoid environment-specific issues
+            ],
+        )
+
+        # Command should succeed
+        assert result.exit_code == 0, f"Command failed with: {result.output}"
 
         # Output directory should be created
         output_dir = tmp_path / ".speckit" / "analysis"
@@ -171,6 +185,7 @@ result = eval(user_code)
         result = runner.invoke(
             app,
             [
+                "audit",
                 "run",
                 "--path",
                 str(tmp_path),
