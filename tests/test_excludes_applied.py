@@ -1,6 +1,6 @@
 """Test exclude glob pattern filtering."""
 from pathlib import Path
-from specify_cli.analyzers.bandit_analyzer import BanditAnalyzer, BANDIT_AVAILABLE
+from specify_cli.analyzers.bandit_analyzer import BanditAnalyzer, BANDIT as BANDIT_AVAILABLE
 
 
 def test_exclude_globs_skip_paths(tmp_path: Path):
