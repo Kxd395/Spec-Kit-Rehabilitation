@@ -11,7 +11,8 @@ try:
     from bandit.core import config as bandit_config
 
     BANDIT = True
-except Exception:
+except (ImportError, ModuleNotFoundError):
+    # Bandit not installed
     BANDIT = False
 
 SEVERITY_MAP = {"LOW": "note", "MEDIUM": "warning", "HIGH": "error"}

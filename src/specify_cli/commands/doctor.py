@@ -24,7 +24,8 @@ def _version(mod: str) -> str:
     try:
         m = importlib.import_module(mod)
         return getattr(m, "__version__", "not found")
-    except Exception:
+    except (ImportError, AttributeError):
+        # Module not installed or has no __version__ attribute
         return "not installed"
 
 

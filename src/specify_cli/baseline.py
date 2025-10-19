@@ -271,7 +271,8 @@ def check_inline_suppression(
 
         return None
 
-    except Exception:
+    except (OSError, IOError, UnicodeDecodeError):
+        # File read error or encoding issue - cannot determine suppression
         return None
 
 
@@ -292,7 +293,8 @@ def load_baseline(path: Path = BASELINE_PATH) -> Set[str]:
     try:
         data = json.loads(path.read_text())
         return set(data.get("fingerprints", []))
-    except Exception:
+    except (OSError, IOError, json.JSONDecodeError, UnicodeDecodeError):
+        # File read error, invalid JSON, or encoding issue
         return set()
 
 

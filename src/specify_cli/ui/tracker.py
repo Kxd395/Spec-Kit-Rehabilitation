@@ -50,7 +50,8 @@ class StepTracker:
         if self._refresh_cb:
             try:
                 self._refresh_cb()
-            except Exception:
+            except (RuntimeError, ValueError):
+                # Callback failed - ignore to prevent disrupting progress tracking
                 pass
 
     def render(self):

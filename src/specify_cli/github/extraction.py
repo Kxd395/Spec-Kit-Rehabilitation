@@ -73,7 +73,8 @@ def download_and_extract_template(
             tracker.complete("fetch", f"release {meta['release']} ({meta['size']:,} bytes)")
             tracker.add("download", "Download template")
             tracker.complete("download", meta["filename"])
-    except Exception as e:
+    except (OSError, IOError, RuntimeError, typer.Exit) as e:
+        # File I/O errors, download validation failures, or typer exit from download module
         if tracker:
             tracker.error("fetch", str(e))
         else:
@@ -182,7 +183,8 @@ def download_and_extract_template(
                     elif verbose:
                         console.print("[cyan]Flattened nested directory structure[/cyan]")
 
-    except Exception as e:
+    except (zipfile.BadZipFile, OSError, IOError, PermissionError) as e:
+        # Corrupted zip, file I/O errors, or permission denied
         if tracker:
             tracker.error("extract", str(e))
         else:

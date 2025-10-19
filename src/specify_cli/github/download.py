@@ -81,7 +81,8 @@ def download_template_from_github(
             raise RuntimeError(
                 f"Failed to parse release JSON: {je}\nRaw (truncated 400): {response.text[:400]}"
             )
-    except Exception as e:
+    except (httpx.HTTPError, httpx.RequestError, RuntimeError) as e:
+        # HTTP request failed, connection error, or API validation failed
         console.print("[red]Error fetching release information[/red]")
         console.print(Panel(str(e), title="Fetch Error", border_style="red"))
         raise typer.Exit(1)
@@ -156,7 +157,8 @@ def download_template_from_github(
                     else:
                         for chunk in response.iter_bytes(chunk_size=8192):
                             f.write(chunk)
-    except Exception as e:
+    except (httpx.HTTPError, httpx.RequestError, OSError, IOError) as e:
+        # HTTP download failed, network error, or file I/O error
         console.print("[red]Error downloading template[/red]")
         detail = str(e)
         if zip_path.exists():

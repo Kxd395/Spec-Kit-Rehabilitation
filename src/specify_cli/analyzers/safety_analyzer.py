@@ -98,15 +98,16 @@ class SafetyAnalyzer:
             # New CLI
             try:
                 data = self._run_json(f"safety scan --json --file {shlex.quote(str(manifest))}")
-            except Exception:
-                # Try legacy
+            except (subprocess.SubprocessError, json.JSONDecodeError, RuntimeError):
+                # safety scan failed - try legacy command
                 log.warning("safety scan failed. Trying legacy 'safety check --json --file'.")
                 data = self._run_json(f"safety check --json --file {shlex.quote(str(manifest))}")
         else:
             log.warning("No supported manifest found. Scanning current Python environment.")
             try:
                 data = self._run_json("safety scan --json")
-            except Exception:
+            except (subprocess.SubprocessError, json.JSONDecodeError, RuntimeError):
+                # safety scan failed - try legacy command
                 log.warning("safety scan failed. Trying legacy 'safety check --json'.")
                 data = self._run_json("safety check --json")
 
